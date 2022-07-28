@@ -120,10 +120,13 @@ const AuthPage = () => {
                                             <label htmlFor="password">Password</label>
                                         </div>
                                     </div>
-                                    <div className="row">
-                                        <button type="button" onClick={signinHandler} className="wawes-effect wawes-light btn blue">Sign in</button>
-                                        {/*<a href="/signup" className="btn-outline btn-reg">Sign Up</a>*/}
-                                        <Link to="/signup" className="btn-outline btn-reg">Sign Up</Link>
+                                    <div className="row flex">
+                                        <div className="col">
+                                            <button type="button" onClick={signinHandler} className="wawes-effect wawes-light btn blue">Sign in</button>
+                                        </div>
+                                        <div className="col">
+                                            <Link to="/signup" className="btn-outline btn-reg">Sign Up</Link>
+                                        </div>
                                     </div>
                                 </form>
                             </Route>
@@ -155,10 +158,13 @@ const AuthPage = () => {
                                             <label htmlFor="password">Password</label>
                                         </div>
                                     </div>
-                                    <div className="row">
-                                        <button type="button" onClick={signupHandler} className="wawes-effect wawes-light btn blue">Sign up</button>
-                                        {/*<a href="/signin" className="btn-outline btn-reg">Already have account?</a>*/}
-                                        <Link to="/signin" className="btn-outline btn-reg">Already have account?</Link>
+                                    <div className="row flex">
+                                        <div className="col">
+                                            <button type="button" onClick={signupHandler} className="wawes-effect wawes-light btn blue">Sign up</button>
+                                        </div>
+                                        <div className="col">
+                                            <Link to="/signin" className="btn-outline btn-reg">Already have account?</Link>
+                                        </div>
                                     </div>
                                 </form>
                             </Route>

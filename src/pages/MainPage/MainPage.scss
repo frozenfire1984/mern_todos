@@ -1,0 +1,17 @@
+.todos {
+  padding-top: 3rem;
+
+  &__item {
+    display: flex;
+    align-items: center;
+    padding-block: 1rem;
+    border-bottom: 1px hsl(0, 0%, 90%) solid;
+
+
+  }
+
+  &__text {
+    flex: 1;
+  }
+}
+

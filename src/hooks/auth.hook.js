@@ -1,3 +1,4 @@
+/* eslint-disable */
 import {useState, useEffect, useCallback} from 'react'
 
 export const useAuth = () => {
@@ -20,13 +21,13 @@ export const useAuth = () => {
 		localStorage.removeItem('userData')
 	}
 
-	useEffect(() => {
+	/*useEffect(() => {
 		const data = JSON.parse(localStorage.getItem('userData'))
 		if (data && data.token) {
 			login(data.token, data.userId)
 		}
 		setIsReady(true)
-	}, [login])
+	}, [login])*/
 
 	return {login, logout, token, userId, isReady}
 }
