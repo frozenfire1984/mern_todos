@@ -12,7 +12,6 @@ router.post('/signup',
     ],
     async (req, res) => {
         try {
-
             const errors = validationResult(req)
 
             if (!errors.isEmpty()) {
@@ -21,7 +20,7 @@ router.post('/signup',
                     msg: 'Sign up: Field(s) is invalid'
                 })
             }
-
+            
             const {email, password} = req.body
             const isused = await User.findOne({email})
 
@@ -33,16 +32,14 @@ router.post('/signup',
             
             const hashPassword = await bcryptjs.hash(password, 12)
 
-            const user = new User({
+            const user = await new User({
                 email: email,
                 password: hashPassword
             })
 
             await user.save()
-
-            //res.setHeader("Access-Control-Allow-Origin", "*")
             res.status(201)
-            res.json({msg: "User created!"})
+            res.json({msg: 'User created!'})
 
         } catch (e) {
             console.log(new Error(e))
@@ -78,17 +75,14 @@ router.post('/signin',
             }
 
             const isMatch = await bcryptjs.compare(password, user.password)
-            console.log(user.password)
-            console.log(password)
-            console.log("IsMatch:" + isMatch)
-
+            
             if (!isMatch) {
                 return res.status(400).json({
                     msg: 'Invalid password'
                 })
             }
             
-            const jwtSecret = '123456789'
+            const jwtSecret = '12345'
             
             const token = jwt.sign(
                 {userId: user.id},
@@ -98,7 +92,7 @@ router.post('/signin',
 
             res.status(200)
             res.json({
-                msg: "User login!",
+                msg: 'User login!',
                 token: token,
                 userId: user.id
             })
@@ -110,8 +104,8 @@ router.post('/signin',
     })
 
 router.get('/test', (req, res) => {
-    res.status(200).setHeader("Content-Type", "text/plain")
-    res.send("test!!!")
+    res.status(200).setHeader('Content-Type', 'text/plain')
+    res.send('test!!!')
 })
 
 module.exports = router

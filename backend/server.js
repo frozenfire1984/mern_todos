@@ -3,24 +3,37 @@ const mongoose = require('mongoose')
 const cors = require('cors')
 
 const app = express()
-const port = 5000
-const url = "mongodb://localhost:27017/todos";
+const port = 5001
+const url = 'mongodb://localhost:27017/todos'
 
-app.use(cors())
+const whitelist = ['http://localhost:3000']
+const corsOptions = {
+    origin: function (origin, callback) {
+        if (!origin || whitelist.indexOf(origin) !== -1) {
+            callback(null, true)
+        } else {
+            callback(new Error('Not allowed by CORS'))
+        }
+    },
+    credentials: true,
+}
+app.use(cors(corsOptions))
 app.use(express.json({extended: true}))
 
-app.use('/api/auth', require('./routes/auth.route'));
+app.use('/api/auth', require('./routes/auth.route'))
 app.use('/api/todo', require('./routes/todos.route'));
 
+/*
 app.post('/test_post', (req, res) => {
     res.status(200).setHeader("Content-Type", "text/plain")
     //const {test} = req.body
     //console.log(test)
-    res.send("Postman кусок гавна")
+    res.send("test")
     console.log(req.body)
     //res.end()
     //console.log(req.body)
 });
+*/
 
 (async function () {
     try {
@@ -37,14 +50,14 @@ app.post('/test_post', (req, res) => {
 }()).then(() => {
     //console.log("db connect")
 }).catch((e) => {
-    console.log("ERROR!")
+    console.log('ERROR!')
     console.log(e)
 })
 
-process.on("SIGINT", () => {
-    console.log("exit!")
+process.on('SIGINT', () => {
+    console.log('exit!')
     mongoose.disconnect().then(() => {
-        console.log("db disconnected!")
-        process.exit();
+        console.log('db disconnected!')
+        process.exit()
     })
 });

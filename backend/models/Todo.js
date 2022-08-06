@@ -1,12 +1,12 @@
 const {Schema, model, Types} = require('mongoose')
 
 const schema = new Schema({
+    text: {
+        type: String
+    },
     owner: {
         type: Types.ObjectId,
         ref: 'User'
-    },
-    test: {
-        type: String
     },
     completed: {
         type: Boolean,
@@ -18,4 +18,4 @@ const schema = new Schema({
     },
 })
 
-module.exports = model("Todo", schema)
+module.exports = model('Todo', schema)

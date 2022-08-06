@@ -12,7 +12,7 @@ const Navbar = () => {
             <div className="nav-wrapper navbar blue">
                 <a href="/" className="brand-logo">Todo app</a>
                 {/*<span>{isLogin.toString()}</span>*/}
-                <ul id="nav-mobile" className="right hide-on-med-and-down">
+                <ul id="nav-mobile" className="right hide-on-med-and-down_">
                     {
                         isLogin
                         ?
