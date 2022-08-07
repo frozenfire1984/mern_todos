@@ -1,15 +1,23 @@
 /* eslint-disable */
 import React, {useState, useContext} from 'react'
-import './AuthPage.scss'
-import {BrowserRouter, Switch, Route, Link} from 'react-router-dom'
-import axios from 'axios'
+import {BrowserRouter, Switch, Route, Link, useHistory} from 'react-router-dom'
 import {AuthContext} from '../../context/AuthContext'
+import {AppContext} from '../../context/AppContext'
+import { BiUserPlus, BiLogIn } from "react-icons/bi";
+
+import './AuthPage.scss'
+import {body} from "express-validator";
 
 const AuthPage = () => {
+	
+	const {vars} = useContext(AppContext)
+	
 	const [form, setForm] = useState({
 		email: "",
 		password: ""
 	})
+	
+	const history = useHistory()
 	
 	const changeHandler = (event) => {
 		//setForm({...form, [event.target.name]: event.target.value})
@@ -23,91 +31,69 @@ const AuthPage = () => {
 	
 	const signupHandler = async () => {
 		try {
-			/*await axios.post('http://localhost:5001/api/auth/signup', {...form}, {
-					headers: {
-							'Content-Type': 'application/json'
-					}
-			})
-				.then(data => {
-					console.log(data)
-				})*/
-			await fetch('http://localhost:5001/api/auth/signup', {
+			await fetch(`${vars.url}/api/auth/signup`, {
 				method: "POST",
 				body: JSON.stringify(form),
 				headers: {
 					'Content-Type': 'application/json'
 				}
 			})
-				.then(res => res.json())
+				.then((res) => {
+					if (!res.ok) {
+						throw res
+					}
+					return res.json()
+				})
 				.then((data) => {
+					history.push("/")
 					console.log(data)
 				})
 				.catch((e) => {
-					console.log(e.response.data.errors)
-					throw new Error(e.response.data.msg)
+					e.json().then((body) => {
+						console.warn(body)
+					})
 				})
 		} catch (e) {
-			console.error(e)
-			
+			console.log(e)
 		}
 	}
 	
 	const signinHandler = async () => {
 		try {
-			/*await axios.post('http://localhost:5001/api/auth/signin', {...form}, {
-				headers: {
-					'Content-Type': 'application/json'
-				}
-			})
-				.then(res => {
-					login(res.data.token, res.data.userId)
-				})*/
-			
-			await fetch('http://localhost:5001/api/auth/signin', {
+			await fetch(`${vars.url}/api/auth/signin`, {
 				method: "POST",
 				body: JSON.stringify(form),
 				headers: {
 					'Content-Type': 'application/json'
 				}
 			})
-				.then(res => res.json())
+				.then((res) => {
+					if (!res.ok) {
+						throw res
+					}
+					return res.json()
+				})
 				.then((data) => {
 					login(data.token, data.userId)
 				})
 				.catch((e) => {
-					console.log(e.response.data.errors)
-					throw new Error(e.response.data.msg)
+					e.json().then((body) => {
+						console.warn(body)
+					})
 				})
 		} catch (e) {
-			//throw new Error(e)
 			console.log(e)
 		}
 	}
 	
-	/*const changeHandler = (event) => {
-			setForm({
-					email: event.target.name === "email" ? event.target.value : form.email,
-					password: event.target.name === "password" ? event.target.value : form.password,
-			})
-			console.log(form)
-	}*/
-	
-	/*const [email, setEmail] = useState()
-
-	const changeEmailHandler = (event) => {
-			setEmail(email, event.target.value)
-			console.log(event.target.name)
-	}*/
-	
 	return (
-		
 		<BrowserRouter>
 			<Switch>
 				<>
 					<div className="container">
 						<div className="auth-page">
 							<Route path="/signin">
-								<h3>Sign in</h3>
+								<h3 className="auth-page__heading"><BiLogIn/> Sign in</h3>
 								<form className="form form-login" onSubmit={e => e.preventDefault()}>
 									<div className="row">
 										<div className="input-field col s12">
@@ -117,8 +103,7 @@ const AuthPage = () => {
 												id="email"
 												className="validate"
 												onChange={changeHandler}
-												//value={form.email}
-												//onChange={changeEmailHandler}
+												tabIndex={1}
 											/>
 											<label htmlFor="email">Email</label>
 										</div>
@@ -128,30 +113,32 @@ const AuthPage = () => {
 												name="password"
 												id="password"
 												className="validate"
-												//value={form.password}
 												onChange={changeHandler}
+												tabIndex={2}
 											/>
 											<label htmlFor="password">Password</label>
 										</div>
 									</div>
-									<div className="row flex">
-										<div className="col">
-											<button
-												type="button"
-												onClick={signinHandler}
-												className="wawes-effect wawes-light btn blue">
-												Sign in
-											</button>
-										</div>
-										<div className="col">
-											<Link to="/signup" className="btn-outline btn-reg">Sign Up</Link>
-										</div>
+									<div className="auth-page__buttons">
+										<button
+											type="button"
+											onClick={signinHandler}
+											className="waves-effect waves-light btn blue"
+											tabIndex={3}>
+											Sign in
+										</button>
+										<Link
+											to="/signup"
+											className="btn-outline"
+											tabIndex={4}>
+											Sign Up
+										</Link>
 									</div>
 								</form>
 							</Route>
 							
 							<Route path="/signup">
-								<h3>Sign up</h3>
+								<h3 className="auth-page__heading"><BiUserPlus /> Sign up</h3>
 								<form className="form form-login" onSubmit={e => e.preventDefault()}>
 									<div className="row">
 										<div className="input-field col s12">
@@ -160,8 +147,8 @@ const AuthPage = () => {
 												name="email"
 												id="email"
 												className="validate"
-												//value={form.email}
 												onChange={changeHandler}
+												tabIndex={1}
 											/>
 											<label htmlFor="email">Email</label>
 										</div>
@@ -171,24 +158,26 @@ const AuthPage = () => {
 												name="password"
 												id="password"
 												className="validate"
-												//value={form.password}
 												onChange={changeHandler}
+												tabIndex={2}
 											/>
 											<label htmlFor="password">Password</label>
 										</div>
 									</div>
-									<div className="row flex">
-										<div className="col">
-											<button
-												type="button"
-												onClick={signupHandler}
-												className="wawes-effect wawes-light btn blue">
-												Sign up
-											</button>
-										</div>
-										<div className="col">
-											<Link to="/signin" className="btn-outline btn-reg">Already have account?</Link>
-										</div>
+									<div className="auth-page__buttons">
+										<button
+											type="button"
+											onClick={signupHandler}
+											className="waves-effect waves-light btn blue"
+											tabIndex={3}>
+											Sign up
+										</button>
+										<Link
+											to="/signin"
+											className="btn-outline"
+											tabIndex={4}>
+											Already have account?
+										</Link>
 									</div>
 								</form>
 							</Route>

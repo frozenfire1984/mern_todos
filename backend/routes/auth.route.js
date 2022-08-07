@@ -63,7 +63,7 @@ router.post('/signin',
                     msg: 'Sign in: field(s) is invalid'
                 })
             }
-
+            
             const {email, password} = req.body
 
             const user = await User.findOne({email})

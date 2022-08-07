@@ -1,0 +1,23 @@
+.auth-page {
+  & &__heading {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    svg {
+      opacity: .3;
+    }
+  }
+
+  & &__buttons {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+
+    .btn {
+      &:focus {
+        outline: 2px blue solid;
+      }
+    }
+  }
+}

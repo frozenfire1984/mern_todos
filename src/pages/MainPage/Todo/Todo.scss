@@ -1,0 +1,112 @@
+@import "../../../styles/variables";
+
+.todo {
+  position: relative;
+  display: flex;
+  align-items: center;
+  transition: $trans background-color linear;
+
+  &_important {
+    color: red;
+
+    .todo__content {
+      font-weight: bold;
+    }
+  }
+
+  &_completed {
+    .todo__content {
+      position: relative;
+
+      &::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: .5rem;
+        right: 0;
+        height: 1px;
+        background: currentColor;
+        //opacity: .5;
+        border: 1px #fff solid;
+        box-sizing: content-box;
+      }
+    }
+  }
+
+  & &__icon-mark {
+    position: absolute;
+    left: -1rem;
+    top: 50%;
+    transform: translateY(-50%);
+
+  }
+
+  & &__num {
+    padding-right: 1rem;
+
+    &::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      height: 100%;
+      margin-left: 1rem;
+      background-color: $color_border;
+    }
+
+  }
+
+  & &__content {
+    flex: 1 1 auto;
+    padding-left: 1rem;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
+  }
+
+  & &__controls {
+    display: flex;
+
+  }
+
+  & &__btn {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding-inline: .5rem;
+    font-size: 1.2rem;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      opacity: .1;
+      transition: .2s background-color linear;
+    }
+
+    &:hover {
+      background-color: transparent;
+
+      &::before {
+        background-color: currentColor;
+      }
+    }
+
+    &_complete {
+      color: $color_sus;
+    }
+
+    &_mark {
+      color: $color_warn;
+    }
+
+    &_delete {
+      color: $color_danger;
+    }
+  }
+}

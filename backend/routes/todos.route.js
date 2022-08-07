@@ -1,6 +1,7 @@
 const {Router} = require('express')
 const Todo = require('../models/Todo')
 const {check, validationResult} = require('express-validator')
+const delay = require('../utils/delay')
 
 const router = Router()
 
@@ -37,8 +38,8 @@ router.post('/add',
 
 router.get('/', async (req, res) => {
 	try {
-		//console.log(req.query)
 		const todos = await Todo.find({owner: req.query.id})
+		await delay(1000)
 		res.status(200)
 		res.json(todos)
 	} catch (e) {

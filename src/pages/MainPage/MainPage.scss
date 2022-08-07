@@ -1,39 +1,15 @@
+@import "../../styles/variables";
+
 .todos {
-  padding-top: 4rem;
+  padding-top: 1rem;
 
-  &__item {
-    display: flex;
-    align-items: center;
-    padding-block: 1rem;
-    border-bottom: 1px hsl(0, 0%, 90%) solid;
+  & &__item {
+    padding-block: .2rem;
+    padding-inline: .5rem;
 
-    &#{&}_important {
-      color: red;
-
-      .todos__text {
-        font-weight: bold;
-      }
+    &:first-child ~ .todos__item {
+      border-top: 1px $color_border solid;
     }
-
-    &#{&}_completed {
-      .todos__text {
-        position: relative;
-
-        &::after {
-          content: "";
-          position: absolute;
-          top: 50%;
-          left: 0;
-          right: 0;
-          height: 1px;
-          background: currentColor;
-        }
-      }
-    }
-  }
-
-  &__text {
-    flex: 1;
   }
 }
 
