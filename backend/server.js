@@ -23,6 +23,8 @@ app.use(express.json({extended: true}))
 app.use('/api/auth', require('./routes/auth.route'))
 app.use('/api/todo', require('./routes/todos.route'));
 
+//app.get('/api/')
+
 /*
 app.post('/test_post', (req, res) => {
     res.status(200).setHeader("Content-Type", "text/plain")
