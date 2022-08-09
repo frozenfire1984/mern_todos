@@ -1,7 +1,52 @@
-.navbar {
-  padding-left: 15px;
+@import "../../styles/variables";
 
-  .brand-logo {
-    font-size: 20px;
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+  min-height: 3rem;
+  margin-bottom: 3rem;
+  background-color: $color_accent;
+  padding: .5rem 1rem;
+  color: #fff;
+
+  & &__app-name {
+    font-weight: bold;
+    outline: 1px hsla(0, 0%, 100%, .5) dotted;
+    outline-offset: 1rem;
+  }
+
+  & &__username {
+    display: flex;
+    align-items: center;
+    margin-right: auto;
+    gap: .5rem
+  }
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  margin: 0;
+  padding: 0;
+  //list-style: none;
+
+  > li {
+    list-style: none;
+
+    a {
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      text-decoration: none;
+      color: #fff;
+      cursor: pointer;
+
+      &:hover, &:active {
+        text-decoration: underline;
+      }
+    }
   }
 }

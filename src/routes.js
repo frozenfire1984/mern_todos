@@ -1,13 +1,13 @@
 import React from 'react'
 import {Switch, Route, Redirect} from 'react-router-dom'
-import MainPage from './pages/MainPage/MainPage'
-import AuthPage from './pages/AuthPage/AuthPage'
+import Main from './pages/Main/Main'
+import Signin from './pages/Auth/Signin'
 
 export const useRoutes = (isLogin) => {
 	if (isLogin) {
 		return (
 			<Switch>
-				<Route path="/" exact component={MainPage}/>
+				<Route path="/" exact component={Main}/>
 				<Redirect to="/"/>
 			</Switch>
 		)
@@ -15,7 +15,7 @@ export const useRoutes = (isLogin) => {
 
 	return (
 		<Switch>
-			<Route path="/signin" exact component={AuthPage}/>
+			<Route path="/signin" exact component={Signin}/>
 			<Redirect to="/signin"/>
 		</Switch>
 	)

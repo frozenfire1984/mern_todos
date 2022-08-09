@@ -1,11 +1,11 @@
 @import "../../styles/variables";
 
 .todos {
-  padding-top: 1rem;
-
+  padding-left: 1rem;
   & &__item {
     padding-block: .2rem;
-    padding-inline: .5rem;
+
+    //padding-inline: .5rem;
 
     &:first-child ~ .todos__item {
       border-top: 1px $color_border solid;

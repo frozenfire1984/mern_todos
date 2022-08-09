@@ -1,19 +1,19 @@
 /* eslint-disable */
 import React, {useContext, useState, useCallback, useEffect} from 'react'
-import './MainPage.scss'
+import './Main.scss'
 import {AuthContext} from '../../context/AuthContext'
 import {AppContext} from '../../context/AppContext'
 import Todo from './Todo/Todo'
-import './MainPage.scss'
+import './Main.scss'
 
-const MainPage = () => {
+const Main = () => {
 	
 	const {isLogin, userId, isReady} = useContext(AuthContext)
 	const {vars} = useContext(AppContext)
 	const [text, setText] = useState("")
 	const [todos, setTodos] = useState([])
 	const [loader, setLoader] = useState(false)
-
+	
 	const getTodos = async () => {
 		setLoader(true)
 		try {
@@ -144,40 +144,39 @@ const MainPage = () => {
 	}, [todos])
 	
 	return (
-		<div className="container">
-			<div className="main-page">
-				<h4>Add Task</h4>
-				<form className="form form-login" onSubmit={e => e.preventDefault()}>
-					<div className="row">
-						<div className="input-field col s12">
-							<input
-								type="text"
-								id="input"
-								name="input"
-								className="validate"
-								value={text}
-								onChange={(e) => setText(e.target.value)}
-							/>
-							<label htmlFor="input">Task</label>
-						</div>
+		<>
+			<div className="container container_narrow">
+				<h3 className="heading">Add Task</h3>
+				<form className="form" onSubmit={e => e.preventDefault()}>
+					<div className="form__row">
+						<input
+							type="text"
+							id="input"
+							name="input"
+							className="validate"
+							value={text}
+							onChange={(e) => setText(e.target.value)}
+						/>
 					</div>
 					<div className="row">
-						<button onClick={addTodo} className="waves-effect waves-light btn blue">Add</button>
+						<button onClick={addTodo} className="btn">Add</button>
 					</div>
 				</form>
-				
-				<h4>Active tasks</h4>
+			</div>
+			
+			<div className="container">
+				<h3 className="heading">Active tasks</h3>
 				<div className="todos">
-					
-					{loader && <div>loading...</div>}
+					{loader && <div className="loading">loading...</div>}
 					
 					{!loader && todos && todos.map((todo, index) => (
-						<Todo key={index} index={index} item={todo} put={putTodo} remove={removeTodo} />
+						<Todo key={index} index={index} item={todo} put={putTodo} remove={removeTodo}/>
 					))}
 				</div>
+			
 			</div>
-		</div>
+		</>
 	)
 }
 
-export default MainPage
+export default Main

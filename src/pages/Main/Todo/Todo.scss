@@ -5,9 +5,10 @@
   display: flex;
   align-items: center;
   transition: $trans background-color linear;
+  padding-inline: .5rem;
 
   &_important {
-    color: red;
+    color: $color_danger;
 
     .todo__content {
       font-weight: bold;
@@ -23,10 +24,9 @@
         position: absolute;
         top: 50%;
         left: .5rem;
-        right: 0;
+        right: .5rem;
         height: 1px;
-        background: currentColor;
-        //opacity: .5;
+        background: #000;
         border: 1px #fff solid;
         box-sizing: content-box;
       }
@@ -38,7 +38,6 @@
     left: -1rem;
     top: 50%;
     transform: translateY(-50%);
-
   }
 
   & &__num {
@@ -54,7 +53,6 @@
       margin-left: 1rem;
       background-color: $color_border;
     }
-
   }
 
   & &__content {
@@ -63,12 +61,10 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-
   }
 
   & &__controls {
     display: flex;
-
   }
 
   & &__btn {
@@ -98,7 +94,7 @@
     }
 
     &_complete {
-      color: $color_sus;
+      color: $color_accent;
     }
 
     &_mark {

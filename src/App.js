@@ -2,8 +2,9 @@
 import React, {useState} from 'react'
 import {BrowserRouter, Routes, Route, Outlet, Link, NavLink, useParams, Navigate} from 'react-router-dom'
 import Navbar from "./components/Navbar/Navbar";
-import AuthPage from "./pages/AuthPage/AuthPage";
-import MainPage from "./pages/MainPage/MainPage";
+import Signin from "./pages/Auth/Signin";
+import Signup from "./pages/Auth/Signup";
+import Main from "./pages/Main/Main";
 import {AuthContext} from './context/AuthContext'
 import {AppContext, vars} from './context/AppContext'
 import {useAuth} from "./hooks/auth.hook"
@@ -21,8 +22,9 @@ function App() {
 					<BrowserRouter>
 						<Navbar/>
 						<Routes>
-							<Route path="/" element={isLogin ? <MainPage /> : <Navigate to="/signin" />} />
-							<Route path="/signin" element={isLogin ? <Navigate to="/"	 /> : <AuthPage /> } />
+							<Route path="/" element={isLogin ? <Main /> : <Navigate to="/signin" />} />
+							<Route path="/signin" element={isLogin ? <Navigate to="/"	 /> : <Signin /> } />
+							<Route path="/signup" element={isLogin ? <Navigate to="/"	 /> : <Signup /> } />
 						</Routes>
 					</BrowserRouter>
 				</div>
