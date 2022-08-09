@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React, {useState, useContext} from 'react'
-import {BrowserRouter, Switch, Route, Link, useHistory} from 'react-router-dom'
+import {BrowserRouter, Switch, Route, Link} from 'react-router-dom'
 import {AuthContext} from '../../context/AuthContext'
 import {AppContext} from '../../context/AppContext'
 import { BiUserPlus, BiLogIn } from "react-icons/bi";
@@ -17,8 +17,6 @@ const AuthPage = () => {
 		password: ""
 	})
 	
-	const history = useHistory()
-	
 	const changeHandler = (event) => {
 		//setForm({...form, [event.target.name]: event.target.value})
 		setForm({
@@ -29,7 +27,7 @@ const AuthPage = () => {
 	
 	const {login, logout, token, userId, isReady, isLogin} = useContext(AuthContext)
 	
-	const signupHandler = async () => {
+/*	const signupHandler = async () => {
 		try {
 			await fetch(`${vars.url}/api/auth/signup`, {
 				method: "POST",
@@ -56,7 +54,7 @@ const AuthPage = () => {
 		} catch (e) {
 			console.log(e)
 		}
-	}
+	}*/
 	
 	const signinHandler = async () => {
 		try {
@@ -87,12 +85,10 @@ const AuthPage = () => {
 	}
 	
 	return (
-		<BrowserRouter>
-			<Switch>
-				<>
+		
 					<div className="container">
 						<div className="auth-page">
-							<Route path="/signin">
+
 								<h3 className="auth-page__heading"><BiLogIn/> Sign in</h3>
 								<form className="form form-login" onSubmit={e => e.preventDefault()}>
 									<div className="row">
@@ -127,18 +123,16 @@ const AuthPage = () => {
 											tabIndex={3}>
 											Sign in
 										</button>
-										<Link
+										{/*<Link
 											to="/signup"
 											className="btn-outline"
 											tabIndex={4}>
 											Sign Up
-										</Link>
+										</Link>*/}
 									</div>
 								</form>
-							</Route>
 							
-							<Route path="/signup">
-								<h3 className="auth-page__heading"><BiUserPlus /> Sign up</h3>
+								{/*<h3 className="auth-page__heading"><BiUserPlus /> Sign up</h3>
 								<form className="form form-login" onSubmit={e => e.preventDefault()}>
 									<div className="row">
 										<div className="input-field col s12">
@@ -179,13 +173,11 @@ const AuthPage = () => {
 											Already have account?
 										</Link>
 									</div>
-								</form>
-							</Route>
+								</form>*/}
+							
 						</div>
 					</div>
-				</>
-			</Switch>
-		</BrowserRouter>
+				
 	)
 }
 
