@@ -14,9 +14,13 @@ const Todo = (props) => {
 				${props.item.important ? 'todo_important' : ''}
 			`}>
 			{props.item.important && <FaLightbulb className="todo__icon-mark"/>}
-			<div className="todo__num">{props.index + 1}</div>
-			<div className="todo__content">{props.item.text}</div>
-			<div className="todo__controls">
+			<div className="todo__cell todo__cell_num">
+				<div className="todo__num-val">
+					{props.index + 1}
+				</div>
+			</div>
+			<div className="todo__cell todo__cell_content">{props.item.text}</div>
+			<div className="todo__cell todo__cell_controls">
 				<button
 					onClick={() => props.put(props.item._id, props.index, "completed")}
 					type="button"
@@ -29,7 +33,11 @@ const Todo = (props) => {
 				<button
 					onClick={() => props.put(props.item._id, props.index, "important")}
 					type="button"
-					className="btn btn_link todo__btn todo__btn_mark">
+					className={`
+						btn btn_link
+						todo__btn todo__btn_mark
+						${props.item.completed ? 'btn_disabled' : ''}
+					`}>
 					{props.item.important
 						? <BsExclamationDiamondFill/>
 						: <BsExclamationDiamond/>

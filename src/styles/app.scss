@@ -30,6 +30,27 @@ a.active-link {
 }
 
 .form {
+  position: relative;
+
+  &::before {
+    display: none;
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: #fff;
+    opacity: .5;
+  }
+
+  &#{&}_disabled {
+    user-select: none;
+    filter: grayscale(100%);
+    pointer-events: none;
+
+    &::before {
+      display: block;
+    }
+  }
+
   & &__row {
     margin-block: 2rem;
 
@@ -56,9 +77,30 @@ a.active-link {
   }
 
   input {
-    height: 2rem;
+    height: 2.5rem;
     width: 100%;
-    border: 1px hsl(0, 0%, 80%) solid;
+    padding-inline: .5rem;
+    border: 1px $color_input_border solid;
+    border-radius: .2rem;
+  }
+
+  & &__field-note {
+    margin-top: .5rem;
+    padding: .5rem;
+    border: 1px $color_accent solid;
+    border-radius: .5rem;
+    background-color: fade-out($color_accent, .9);
+    font-size: .9em;
+    font-style: italic;
+    color: darken($color_accent, 30%);
+
+    p {
+      margin: 0;
+    }
+
+    ul {
+      margin-block: 0;
+    }
   }
 }
 
@@ -66,8 +108,8 @@ a.active-link {
   $darken-per: 5%;
   display: flex;
   align-items: center;
-  min-height: 2rem;
-  padding: .5rem 2rem;
+  min-height: 2.5rem;
+  padding: .5rem 1.5rem;
   border-radius: .2rem;
   background-color: $color_accent;
   border: 1px $color_accent solid;
@@ -76,9 +118,23 @@ a.active-link {
   font-size: 1rem;
   text-decoration: none;
 
+  &:hover, &:active {
+    background-color: darken($color_accent, $darken-per);
+    border-color: darken($color_accent, $darken-per);
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 1rem $color_accent;
+  }
+
   &#{&}_wire {
     background-color: transparent;
     color: $color_accent;
+
+    &:hover, &:active {
+      background-color: fade-out($color_accent, .9);
+    }
   }
 
   &#{&}_link {
@@ -95,14 +151,12 @@ a.active-link {
     }
   }
 
-  &:hover, &:active {
-    background-color: darken($color_accent, $darken-per);
-    border-color: darken($color_accent, $darken-per);
-  }
-
-  &:focus {
-    outline: none;
-    box-shadow: 0 0 1rem $color_accent;
+  &[disabled],
+  &#{&}_disabled {
+    pointer-events: none;
+    user-select: none;
+    opacity: .7;
+    filter: grayscale(100%);
   }
 }
 
@@ -110,6 +164,5 @@ a.active-link {
   text-align: center;
   font-style: italic;
   color: $color_h-text;
-
 }
 

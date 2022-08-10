@@ -7,7 +7,6 @@ import Todo from './Todo/Todo'
 import './Main.scss'
 
 const Main = () => {
-	
 	const {isLogin, userId, isReady} = useContext(AuthContext)
 	const {vars} = useContext(AppContext)
 	const [text, setText] = useState("")
@@ -53,8 +52,8 @@ const Main = () => {
 		}
 	}, [])
 	
-	const addTodo = useCallback(async () => {
-		console.log("add")
+	const addTodo = useCallback(async (e) => {
+		e.preventDefault()
 		if (!text) return null
 		
 		try {
@@ -147,7 +146,7 @@ const Main = () => {
 		<>
 			<div className="container container_narrow">
 				<h3 className="heading">Add Task</h3>
-				<form className="form" onSubmit={e => e.preventDefault()}>
+				<form className={`form`} onSubmit={addTodo}>
 					<div className="form__row">
 						<input
 							type="text"
@@ -159,7 +158,7 @@ const Main = () => {
 						/>
 					</div>
 					<div className="row">
-						<button onClick={addTodo} className="btn">Add</button>
+						<button type="submit" className="btn" disabled={!text}>Add</button>
 					</div>
 				</form>
 			</div>

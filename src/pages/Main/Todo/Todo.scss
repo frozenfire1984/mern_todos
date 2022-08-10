@@ -3,68 +3,95 @@
 .todo {
   position: relative;
   display: flex;
-  align-items: center;
   transition: $trans background-color linear;
-  padding-inline: .5rem;
+
+  & &__icon-mark {
+    position: absolute;
+    left: -.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: $color_warn;
+  }
+
+  & &__cell {
+    padding-block: .8rem;
+
+    &_num {
+      padding-right: .5rem;
+
+      &::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 1px;
+        height: 100%;
+        margin-left: 2.5rem;
+        background-color: $color_border;
+      }
+    }
+
+    &_content {
+      --color-even: hsl(0, 0%, 80%);
+      --color-odd: hsla(0, 0%, 100%, 0);
+      position: relative;
+      flex: 1 1 auto;
+      padding-left: .5rem;
+
+      &::after {
+        display: none;
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image: linear-gradient(135deg,
+          var(--color-odd) 25%,
+          var(--color-even) 25%,
+          var(--color-even) 50%,
+          var(--color-odd) 50%,
+          var(--color-odd) 75%,
+          var(--color-even) 75%,
+          var(--color-even) 100%
+        );
+        background-size: 28.28px 28.28px;
+        opacity: .5;
+      }
+    }
+
+    &_controls {
+      display: flex;
+      align-items: flex-start;
+      padding-block: .2rem;
+    }
+  }
+
+  &__num-val {
+    min-width: 2rem;
+    text-align: right;
+
+    &::before {
+      content: "#";
+      display: inline;
+    }
+  }
 
   &_important {
-    color: $color_danger;
-
     .todo__content {
       font-weight: bold;
     }
   }
 
   &_completed {
-    .todo__content {
-      position: relative;
+    .todo__cell {
+      &_num, &_content {
+        color: hsl(0, 0%, 50%);
+      }
 
-      &::after {
-        content: "";
-        position: absolute;
-        top: 50%;
-        left: .5rem;
-        right: .5rem;
-        height: 1px;
-        background: #000;
-        border: 1px #fff solid;
-        box-sizing: content-box;
+      &_content {
+        &::after {
+          display: block;
+        }
       }
     }
-  }
-
-  & &__icon-mark {
-    position: absolute;
-    left: -1rem;
-    top: 50%;
-    transform: translateY(-50%);
-  }
-
-  & &__num {
-    padding-right: 1rem;
-
-    &::after {
-      content: "";
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      width: 1px;
-      height: 100%;
-      margin-left: 1rem;
-      background-color: $color_border;
-    }
-  }
-
-  & &__content {
-    flex: 1 1 auto;
-    padding-left: 1rem;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-  }
-
-  & &__controls {
-    display: flex;
   }
 
   & &__btn {

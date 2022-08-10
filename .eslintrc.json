@@ -22,6 +22,7 @@
     "rules": {
         "semi": [2, "never"],
         "jsx-quotes": ["error", "prefer-double"],
-        "quotes": ["error", "single"]
+        "quotes": ["error", "single"],
+        "no-useless-escape": "off"
     }
 }

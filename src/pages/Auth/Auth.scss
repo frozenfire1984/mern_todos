@@ -1,0 +1,11 @@
+@import "../../styles/variables";
+
+.msg {
+  margin-top: .1rem;
+  font-size: .9em;
+  font-style: italic;
+
+  &#{&}_error {
+    color: $color_danger;
+  }
+}
