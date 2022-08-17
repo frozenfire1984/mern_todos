@@ -22,10 +22,12 @@ const Signin = () => {
 	const [genericError, setGenericError] = useState("")
 	
 	const changeEmailHandler = (event) => {
+		console.log("changeEmailHandler")
 		setEmail(event.target.value)
 	}
 	
 	const changePasswordHandler = (event) => {
+		console.log("changePasswordHandler")
 		setPassword(event.target.value)
 	}
 	
@@ -43,6 +45,7 @@ const Signin = () => {
 	const {login, logout, token, userId, isReady, isLogin} = useContext(AuthContext)
 	
 	const submitHandler = async (e) => {
+		console.log("submitHandler")
 		e.preventDefault()
 		setIsLoading(true)
 		setEmailError("")

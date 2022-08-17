@@ -23,10 +23,12 @@ const AuthPage = () => {
 	const [genericError, setGenericError] = useState("")
 	
 	const changeEmailHandler = (event) => {
+		console.log("changeEmailHandler")
 		setEmail(event.target.value)
 	}
 	
 	const changePasswordHandler = (event) => {
+		console.log("changePasswordHandler")
 		setPassword(event.target.value)
 	}
 	
@@ -44,6 +46,7 @@ const AuthPage = () => {
 	const {login, logout, token, userId, isReady, isLogin} = useContext(AuthContext)
 	
 	const signupHandler = async (event) => {
+		console.log("signupHandler")
 		event.preventDefault()
 		setIsLoading(true)
 		setEmailErrors("")

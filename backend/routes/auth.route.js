@@ -55,7 +55,7 @@ router.post('/signup',
 			const errors = validationResult(req)
 			
 			if (!errors.isEmpty()) {
-				return res.status(400).json({
+				return res.status(400).send({
 					type: 'express-validator',
 					errors: errors.array(),
 					msg: 'Sign up: Field(s) is invalid'

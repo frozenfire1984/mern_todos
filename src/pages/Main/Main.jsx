@@ -52,7 +52,8 @@ const Main = () => {
 		}
 	}, [])
 	
-	const addTodo = useCallback(async (e) => {
+	const addTodo = async (e) => {
+		console.log("Add Todo")
 		e.preventDefault()
 		if (!text) return null
 		
@@ -80,9 +81,10 @@ const Main = () => {
 		} catch (e) {
 			console.log(e)
 		}
-	}, [text])
+	}
 	
 	const removeTodo = async (id, index) => {
+		console.log("Remove Todo")
 		console.log(id)
 		
 		const params = new URLSearchParams({
@@ -109,7 +111,8 @@ const Main = () => {
 		}
 	}
 	
-	const putTodo = useCallback(async (id, index, type) => {
+	const putTodo = async (id, index, type) => {
+		console.log("Put Todo")
 		const params = new URLSearchParams({
 			type: type,
 		})
@@ -140,7 +143,7 @@ const Main = () => {
 		} catch (e) {
 			console.log(e)
 		}
-	}, [todos])
+	}
 	
 	return (
 		<>
