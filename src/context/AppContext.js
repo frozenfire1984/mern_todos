@@ -1,9 +1,16 @@
-import {createContext} from 'react'
+import React, {createContext} from 'react'
+import PropTypes from 'prop-types'
+export const AppContext = createContext(null)
 
-const vars = {
-	url: 'http://localhost:5001',
+export const AppProvider = ({children}) => {
+	const vars = {
+		url: 'http://localhost:5001',
+	}
+	return <AppContext.Provider value={{vars}}>
+		{children}
+	</AppContext.Provider>
 }
 
-const AppContext = createContext()
-
-export {AppContext, vars}
+AppProvider.propTypes = {
+	children: PropTypes.object.isRequired
+}
