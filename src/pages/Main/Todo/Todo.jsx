@@ -1,8 +1,8 @@
-/* eslint-disable */
 import React, {memo} from 'react'
-import {ImCheckmark, ImCheckmark2, ImCross} from "react-icons/im";
-import {BsExclamationDiamond, BsExclamationDiamondFill} from "react-icons/bs";
-import {FaLightbulb} from "react-icons/fa";
+import {ImCheckmark, ImCheckmark2, ImCross} from 'react-icons/im'
+import {BsExclamationDiamond, BsExclamationDiamondFill} from 'react-icons/bs'
+import {FaLightbulb} from 'react-icons/fa'
+import PropTypes from 'prop-types'
 
 import './Todo.scss'
 
@@ -22,7 +22,7 @@ const Todo = (props) => {
 			<div className="todo__cell todo__cell_content">{props.item.text}</div>
 			<div className="todo__cell todo__cell_controls">
 				<button
-					onClick={() => props.put(props.item._id, props.index, "completed")}
+					onClick={() => props.put(props.item._id, props.index, 'completed')}
 					type="button"
 					className="btn btn_link todo__btn todo__btn_complete">
 					{props.item.completed
@@ -31,7 +31,7 @@ const Todo = (props) => {
 					}
 				</button>
 				<button
-					onClick={() => props.put(props.item._id, props.index, "important")}
+					onClick={() => props.put(props.item._id, props.index, 'important')}
 					type="button"
 					className={`
 						btn btn_link
@@ -52,6 +52,13 @@ const Todo = (props) => {
 			</div>
 		</div>
 	)
+}
+
+Todo.propTypes = {
+	item: PropTypes.object.isRequired,
+	index: PropTypes.number.isRequired,
+	put: PropTypes.func.isRequired,
+	remove: PropTypes.func.isRequired
 }
 
 export default memo(Todo)
