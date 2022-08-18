@@ -25,6 +25,7 @@
         "jsx-quotes": ["error", "prefer-double"],
         "quotes": ["error", "single"],
         "no-useless-escape": "off",
-        "@typescript-eslint/no-var-requires": 0
+        "@typescript-eslint/no-var-requires": 0,
+        "@typescript-eslint/no-empty-interface": "off"
     }
 }

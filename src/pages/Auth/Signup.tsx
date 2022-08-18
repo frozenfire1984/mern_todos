@@ -1,19 +1,43 @@
-import React, {useState, useContext, useEffect} from 'react'
+import React, {useState, useContext, useEffect, FormEvent} from 'react'
 import {Link, useNavigate} from 'react-router-dom'
-import {AuthContext} from '../../context/AuthContext'
-import {AppContext} from '../../context/AppContext'
+//import {AuthContext} from '../../context/AuthContext'
+import {AppContext, Type_ProviderExportProps} from '../../context/AppContext'
 import {FaUserPlus} from 'react-icons/fa'
 import './Auth.scss'
 
+interface IServer_EV_errors_details {
+	value: string,
+	msg: string,
+	param: string,
+	location: string
+}
+
+interface IServer_EV_errors{
+	errors: IServer_EV_errors_details,
+	msg: string,
+	type: string
+}
+
+interface IPayload {
+	email: string,
+	password: string
+}
+
+type TError_list = string[]
+
+export class CustomError extends Error {
+	constructor(message: string) {
+		super(message)
+		//Object.setPrototypeOf(this, CustomError.prototype)
+	}
+	error_msg: IServer_EV_errors | null = null
+	response?: object
+}
 
 const AuthPage = () => {
-	const debug_mode = true
+	const debug_mode = false
 	
-	const {vars} = useContext(AppContext)
-	
-	/*const vars = {
-		url: 'http://localhost:5001'
-	}*/
+	const {vars} = useContext(AppContext) as Type_ProviderExportProps
 	
 	const navigate = useNavigate()
 	
@@ -22,18 +46,18 @@ const AuthPage = () => {
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
 	
-	const [emailErrors, setEmailErrors] = useState([])
-	const [passwordErrors, setPasswordErrors] = useState([])
+	const [emailErrors, setEmailErrors] = useState<TError_list>([])
+	const [passwordErrors, setPasswordErrors] = useState<TError_list>([])
 	const [genericError, setGenericError] = useState('')
 	
-	const changeEmailHandler = (event) => {
+	const changeEmailHandler = (event: FormEvent<HTMLInputElement>) => {
 		console.log('changeEmailHandler')
-		setEmail(event.target.value)
+		setEmail((event.target as HTMLInputElement).value)
 	}
 	
-	const changePasswordHandler = (event) => {
+	const changePasswordHandler = (event: FormEvent<HTMLInputElement>) => {
 		console.log('changePasswordHandler')
-		setPassword(event.target.value)
+		setPassword((event.target as HTMLInputElement).value)
 	}
 	
 	useEffect(() => {
@@ -47,23 +71,23 @@ const AuthPage = () => {
 		}
 	}, [])
 	
-	const {login, logout, token, userId, isReady, isLogin} = useContext(AuthContext)
-	
-	const signupHandler = async (event) => {
+	const signupHandler = async (event: FormEvent<HTMLFormElement>) => {
 		console.log('signupHandler')
 		event.preventDefault()
 		setIsLoading(true)
-		setEmailErrors('')
+		setEmailErrors([])
 		setPasswordErrors([])
 		setGenericError('')
+		
+		const payload:IPayload = {
+			email: email,
+			password: password
+		}
 		
 		try {
 			await fetch(`${vars.url}/api/auth/signup`, {
 				method: 'POST',
-				body: JSON.stringify({
-					email: email,
-					password: password
-				}),
+				body: JSON.stringify(payload),
 				headers: {
 					'Content-Type': 'application/json'
 				}
@@ -77,7 +101,7 @@ const AuthPage = () => {
 						return res
 					} else {
 						return res.json().then(data => {
-							let error = new Error('Bad request')
+							const error = new CustomError('Bad request')
 							error.error_msg = data
 							throw error
 						})
@@ -85,7 +109,7 @@ const AuthPage = () => {
 				})
 				.then((res) => {
 					if (!res.headers.get('content-type')?.includes('application/json')) {
-						let error = new Error('Error json parsing')
+						const error = new CustomError('Error json parsing')
 						error.response = res
 						throw error
 					}
@@ -101,22 +125,24 @@ const AuthPage = () => {
 					//console.log(e.message)
 					console.log(e.error_msg)
 					if (e.error_msg && e.error_msg.errors && e.error_msg.type === 'express-validator') {
-						const password_errors_list = e.error_msg.errors.reduce((collector, item) => {
+						const password_errors_list: TError_list = e.error_msg.errors.reduce((collector: TError_list, item: IServer_EV_errors_details) => {
 							if (item.param === 'password') {
 								collector.push(item.msg)
+								console.log(item.value)
 							}
 							return collector
 						}, [])
+						console.log(password_errors_list)
+					
 						setPasswordErrors(password_errors_list)
 						
-						const email_errors_list = e.error_msg.errors.reduce((collector, item) => {
+						const email_errors_list: TError_list = e.error_msg.errors.reduce((collector: TError_list, item: IServer_EV_errors_details) => {
 							if (item.param === 'email') {
 								collector.push(item.msg)
 							}
 							return collector
 						}, [])
 						setEmailErrors(email_errors_list)
-						
 						return
 					}
 					
