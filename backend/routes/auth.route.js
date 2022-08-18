@@ -85,12 +85,12 @@ router.post('/signin',
 	[
 		check('email')
 			.notEmpty()
-			.withMessage('password is empty!')
+			.withMessage('email is empty')
 			.isEmail()
 			.withMessage('invalid email'),
 		check('password')
 			.notEmpty()
-			.withMessage('password is empty!')
+			.withMessage('password is empty')
 	],
 	async (req, res) => {
 		try {
@@ -98,9 +98,11 @@ router.post('/signin',
 			const errors = validationResult(req)
 			
 			if (!errors.isEmpty()) {
+				const type = errors.array()[0].msg.includes('email') ? 'email' : errors.array()[0].msg.includes('password') ? 'password' : null
 				return res.status(400).json({
+					type: type,
 					errors: errors.array(),
-					msg: 'Sign in: field(s) is invalid'
+					msg: 'this field is invalid'
 				})
 			}
 			
