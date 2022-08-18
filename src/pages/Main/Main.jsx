@@ -9,6 +9,11 @@ import './Main.scss'
 const Main = () => {
 	const {isLogin, userId, isReady} = useContext(AuthContext)
 	const {vars} = useContext(AppContext)
+	
+	/*const vars = {
+		url: 'http://localhost:5001'
+	}*/
+	
 	const [text, setText] = useState("")
 	const [todos, setTodos] = useState([])
 	const [loader, setLoader] = useState(false)

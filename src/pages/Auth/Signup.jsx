@@ -1,9 +1,8 @@
-/* eslint-disable */
 import React, {useState, useContext, useEffect} from 'react'
 import {Link, useNavigate} from 'react-router-dom'
 import {AuthContext} from '../../context/AuthContext'
 import {AppContext} from '../../context/AppContext'
-import {FaUserPlus} from "react-icons/fa";
+import {FaUserPlus} from 'react-icons/fa'
 import './Auth.scss'
 
 
@@ -11,51 +10,56 @@ const AuthPage = () => {
 	const debug_mode = true
 	
 	const {vars} = useContext(AppContext)
+	
+	/*const vars = {
+		url: 'http://localhost:5001'
+	}*/
+	
 	const navigate = useNavigate()
 	
 	const [isLoading, setIsLoading] = useState(false)
 	
-	const [email, setEmail] = useState("")
-	const [password, setPassword] = useState("")
+	const [email, setEmail] = useState('')
+	const [password, setPassword] = useState('')
 	
 	const [emailErrors, setEmailErrors] = useState([])
 	const [passwordErrors, setPasswordErrors] = useState([])
-	const [genericError, setGenericError] = useState("")
+	const [genericError, setGenericError] = useState('')
 	
 	const changeEmailHandler = (event) => {
-		console.log("changeEmailHandler")
+		console.log('changeEmailHandler')
 		setEmail(event.target.value)
 	}
 	
 	const changePasswordHandler = (event) => {
-		console.log("changePasswordHandler")
+		console.log('changePasswordHandler')
 		setPassword(event.target.value)
 	}
 	
 	useEffect(() => {
 		return () => {
 			setIsLoading(false)
-			setEmail("")
-			setPassword("")
+			setEmail('')
+			setPassword('')
 			setEmailErrors([])
 			setPasswordErrors([])
-			setGenericError("")
+			setGenericError('')
 		}
 	}, [])
 	
 	const {login, logout, token, userId, isReady, isLogin} = useContext(AuthContext)
 	
 	const signupHandler = async (event) => {
-		console.log("signupHandler")
+		console.log('signupHandler')
 		event.preventDefault()
 		setIsLoading(true)
-		setEmailErrors("")
+		setEmailErrors('')
 		setPasswordErrors([])
-		setGenericError("")
+		setGenericError('')
 		
 		try {
 			await fetch(`${vars.url}/api/auth/signup`, {
-				method: "POST",
+				method: 'POST',
 				body: JSON.stringify({
 					email: email,
 					password: password
@@ -66,11 +70,11 @@ const AuthPage = () => {
 			})
 				.then((res) => {
 					if (res.status === 404) {
-						throw new Error("Bad API url")
+						throw new Error('Bad API url')
 					}
 					
 					if (res.ok) {
-						return res;
+						return res
 					} else {
 						return res.json().then(data => {
 							let error = new Error('Bad request')
@@ -81,24 +85,24 @@ const AuthPage = () => {
 				})
 				.then((res) => {
 					if (!res.headers.get('content-type')?.includes('application/json')) {
-						let error = new Error('Error json parsing');
-						error.response = res;
+						let error = new Error('Error json parsing')
+						error.response = res
 						throw error
 					}
-					return res;
+					return res
 				})
 				.then(res => res.json())
 				.then(data => {
 					console.log(data)
-					navigate("/signin")
+					navigate('/signin')
 				})
 				.catch((e) => {
 					//console.log(e.name)
 					//console.log(e.message)
 					console.log(e.error_msg)
-					if (e.error_msg && e.error_msg.errors && e.error_msg.type === "express-validator") {
+					if (e.error_msg && e.error_msg.errors && e.error_msg.type === 'express-validator') {
 						const password_errors_list = e.error_msg.errors.reduce((collector, item) => {
-							if (item.param === "password") {
+							if (item.param === 'password') {
 								collector.push(item.msg)
 							}
 							return collector
@@ -106,14 +110,14 @@ const AuthPage = () => {
 						setPasswordErrors(password_errors_list)
 						
 						const email_errors_list = e.error_msg.errors.reduce((collector, item) => {
-							if (item.param === "email") {
+							if (item.param === 'email') {
 								collector.push(item.msg)
 							}
 							return collector
 						}, [])
 						setEmailErrors(email_errors_list)
 						
-						return;
+						return
 					}
 					
 					if (e.message === 'Failed to fetch') {
@@ -123,7 +127,7 @@ const AuthPage = () => {
 						console.log(e)
 					}
 				})
-				.finally(() => setIsLoading(false));
+				.finally(() => setIsLoading(false))
 		} catch (e) {
 			console.log(e)
 		}

@@ -4,12 +4,15 @@ import './index.scss'
 import App from './App'
 import {AuthProvider} from './context/AuthContext'
 import {AppProvider} from './context/AppContext'
+import TestProvider from './context/TestContext'
 
 ReactDOM.render(
 	<React.StrictMode>
 		<AppProvider>
 			<AuthProvider>
-				<App/>
+				<TestProvider>
+					<App/>
+				</TestProvider>
 			</AuthProvider>
 		</AppProvider>
 	</React.StrictMode>,

@@ -2,6 +2,7 @@
 import React, {useContext} from 'react'
 import {Link} from 'react-router-dom'
 import {AuthContext} from '../../context/AuthContext'
+
 import {FaUser} from "react-icons/fa";
 import {BiLogIn, BiLogOut} from "react-icons/bi";
 
@@ -22,13 +23,18 @@ const Navbar = () => {
 				<ul className="header__nav nav">
 					<li>
 						<Link to="/">
-							Main
+							&bull; Main
+						</Link>
+					</li>
+					<li>
+						<Link to="/test">
+							&bull; Test
 						</Link>
 					</li>
 					{isLogin &&
 						<li>
 							<Link to="/info">
-								Info
+								&bull; Info
 							</Link>
 						</li>
 					}

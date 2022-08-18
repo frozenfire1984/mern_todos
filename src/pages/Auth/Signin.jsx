@@ -1,9 +1,8 @@
-/* eslint-disable */
 import React, {useState, useContext, useEffect} from 'react'
 import {BrowserRouter, Switch, Route, Link} from 'react-router-dom'
 import {AuthContext} from '../../context/AuthContext'
 import {AppContext} from '../../context/AppContext'
-import {BiLogIn} from "react-icons/bi";
+import {BiLogIn} from 'react-icons/bi'
 
 import './Auth.scss'
 
@@ -12,49 +11,53 @@ const Signin = () => {
 	
 	const { vars } = useContext(AppContext)
 	
+	/*const vars = {
+		url: 'http://localhost:5001'
+	}*/
+	
 	const [isLoading, setIsLoading] = useState(false)
 	
-	const [email, setEmail] = useState("")
-	const [password, setPassword] = useState("")
+	const [email, setEmail] = useState('')
+	const [password, setPassword] = useState('')
 	
-	const [emailError, setEmailError] = useState("")
-	const [passwordError, setPasswordError] = useState("")
-	const [genericError, setGenericError] = useState("")
+	const [emailError, setEmailError] = useState('')
+	const [passwordError, setPasswordError] = useState('')
+	const [genericError, setGenericError] = useState('')
 	
 	const changeEmailHandler = (event) => {
-		console.log("changeEmailHandler")
+		console.log('changeEmailHandler')
 		setEmail(event.target.value)
 	}
 	
 	const changePasswordHandler = (event) => {
-		console.log("changePasswordHandler")
+		console.log('changePasswordHandler')
 		setPassword(event.target.value)
 	}
 	
 	useEffect(() => {
 		return () => {
 			setIsLoading(false)
-			setEmail("")
-			setPassword("")
-			setPasswordError("")
-			setEmailError("")
-			setGenericError("")
+			setEmail('')
+			setPassword('')
+			setPasswordError('')
+			setEmailError('')
+			setGenericError('')
 		}
 	}, [])
 	
 	const {login, logout, token, userId, isReady, isLogin} = useContext(AuthContext)
 	
 	const submitHandler = async (e) => {
-		console.log("submitHandler")
+		console.log('submitHandler')
 		e.preventDefault()
 		setIsLoading(true)
-		setEmailError("")
-		setPasswordError("")
-		setGenericError("")
+		setEmailError('')
+		setPasswordError('')
+		setGenericError('')
 		
 		try {
 			await fetch(`${vars.url}/api/auth/signin`, {
-				method: "POST",
+				method: 'POST',
 				body: JSON.stringify({
 					email: email,
 					password: password
@@ -65,11 +68,11 @@ const Signin = () => {
 			})
 				.then((res) => {
 					if (res.status === 404) {
-						throw new Error("Bad API url")
+						throw new Error('Bad API url')
 					}
 					
 					if (res.ok) {
-						return res;
+						return res
 					} else {
 						return res.json().then(data => {
 							let error = new Error('Bad request')
@@ -80,11 +83,11 @@ const Signin = () => {
 				})
 				.then((res) => {
 					if (!res.headers.get('content-type')?.includes('application/json')) {
-						let error = new Error('Error json parsing');
-						error.response = res;
+						let error = new Error('Error json parsing')
+						error.response = res
 						throw error
 					}
-					return res;
+					return res
 				})
 				.then(res => res.json())
 				.then(data => {
@@ -101,14 +104,14 @@ const Signin = () => {
 					//console.log(e.lineNumber)
 					//console.log(e.error_msg)
 
-					if (e.error_msg && e.error_msg.type === "email") {
+					if (e.error_msg && e.error_msg.type === 'email') {
 						setEmailError(e.error_msg.msg)
 						return
 					}
 					
-					if (e.error_msg && e.error_msg.type === "password") {
+					if (e.error_msg && e.error_msg.type === 'password') {
 						setPasswordError(e.error_msg.msg)
-						return;
+						return
 					}
 					
 					if (e.message === 'Failed to fetch') {
@@ -118,7 +121,7 @@ const Signin = () => {
 						console.log(e)
 					}
 				})
-				.finally(() => setIsLoading(false));
+				.finally(() => setIsLoading(false))
 		} catch (e) {
 			console.log(e)
 		}
