@@ -1,23 +1,21 @@
-/* eslint-disable */
-import React, {useContext, useState, useCallback, useEffect} from 'react'
-import './Main.scss'
-import {AuthContext} from '../../context/AuthContext'
-import {AppContext} from '../../context/AppContext'
+import React, {useContext, useState, useCallback, useEffect, FormEvent} from 'react'
+import {AuthContext, IAuth} from '../../context/AuthContext'
+import {AppContext, IApp} from '../../context/AppContext'
 import Todo from './Todo/Todo'
-
+import ITodo from '../../@type/todo'
 import './Main.scss'
 
 const Main = () => {
-	const {isLogin, userId, isReady} = useContext(AuthContext)
-	const {vars} = useContext(AppContext)
+	const {userId} = useContext(AuthContext) as IAuth
+	const {vars} = useContext(AppContext) as IApp
 	
-	/*const vars = {
-		url: 'http://localhost:5001'
-	}*/
-	
-	const [text, setText] = useState("")
-	const [todos, setTodos] = useState([])
+	const [text, setText] = useState('')
+	const [todos, setTodos] = useState<ITodo[]>([])
 	const [loader, setLoader] = useState(false)
+	
+	const changeTextHandler = (event: FormEvent<HTMLInputElement>) => {
+		setText((event.target as HTMLInputElement).value)
+	}
 	
 	const getTodos = async () => {
 		setLoader(true)
@@ -29,7 +27,7 @@ const Main = () => {
 				
 				await fetch(`${vars.url}/api/todo?${params}`,
 					{
-						method: "GET",
+						method: 'GET',
 						headers: {
 							'Content-Type': 'application/json'
 						}
@@ -53,20 +51,20 @@ const Main = () => {
 		})
 		
 		return () => {
-			setText("")
+			setText('')
 			setTodos([])
 		}
 	}, [])
 	
-	const addTodo = async (e) => {
-		console.log("Add Todo")
-		e.preventDefault()
+	const addTodo = async (event: FormEvent<HTMLFormElement>) => {
+		console.log('Add Todo')
+		event.preventDefault()
 		if (!text) return null
 		
 		try {
 			await fetch(`${vars.url}/api/todo/add`,
 				{
-					method: "POST",
+					method: 'POST',
 					body: JSON.stringify({
 						text: text,
 						userId: userId
@@ -78,7 +76,7 @@ const Main = () => {
 				.then(res => res.json())
 				.then(data => {
 					setTodos([...todos, data])
-					setText("")
+					setText('')
 				})
 				.catch(e => {
 					console.log(e.response.data.errors)
@@ -89,8 +87,8 @@ const Main = () => {
 		}
 	}
 	
-	const removeTodo = async (id, index) => {
-		console.log("Remove Todo")
+	const removeTodo = useCallback(async (id: string, index: number) => {
+		console.log('Remove Todo')
 		console.log(id)
 		
 		const params = new URLSearchParams({
@@ -100,10 +98,10 @@ const Main = () => {
 		
 		try {
 			await fetch(`${vars.url}/api/todo?${params}`,
-				{method: "DELETE"}
+				{method: 'DELETE'}
 			)
 				.then(res => res.json())
-				.then(data => {
+				.then(() => {
 					setTodos([
 						...todos.slice(0, index),
 						...todos.slice(index + 1, todos.length)
@@ -115,10 +113,10 @@ const Main = () => {
 		} catch (e) {
 			console.log(e)
 		}
-	}
+	},[todos])
 	
-	const putTodo = async (id, index, type) => {
-		console.log("Put Todo")
+	const putTodo = useCallback(async (id: string, index: number, type: string) => {
+		console.log('Put Todo')
 		const params = new URLSearchParams({
 			type: type,
 		})
@@ -126,7 +124,7 @@ const Main = () => {
 		try {
 			await fetch(`${vars.url}/api/todo?${params}`,
 				{
-					method: "PUT",
+					method: 'PUT',
 					body: JSON.stringify({
 						id: id
 					}),
@@ -149,13 +147,13 @@ const Main = () => {
 		} catch (e) {
 			console.log(e)
 		}
-	}
+	},[todos])
 	
 	return (
 		<>
 			<div className="container container_narrow">
 				<h3 className="heading">Add Task</h3>
-				<form className={`form`} onSubmit={addTodo}>
+				<form className="form" onSubmit={addTodo}>
 					<div className="form__row">
 						<input
 							type="text"
@@ -163,7 +161,7 @@ const Main = () => {
 							name="input"
 							className="validate"
 							value={text}
-							onChange={(e) => setText(e.target.value)}
+							onChange={changeTextHandler}
 						/>
 					</div>
 					<div className="row">
@@ -181,7 +179,6 @@ const Main = () => {
 						<Todo key={index} index={index} item={todo} put={putTodo} remove={removeTodo}/>
 					))}
 				</div>
-			
 			</div>
 		</>
 	)

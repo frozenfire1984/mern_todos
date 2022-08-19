@@ -1,7 +1,6 @@
 import React, {useState, useContext, useEffect, FormEvent} from 'react'
 import {Link, useNavigate} from 'react-router-dom'
-//import {AuthContext} from '../../context/AuthContext'
-import {AppContext, IProviderExportProps} from '../../context/AppContext'
+import {AppContext, IApp} from '../../context/AppContext'
 import IPayload from '../../@type/payload'
 import {IServer_errors_details} from '../../@type/server.errors'
 import CustomError from './_customError'
@@ -13,7 +12,7 @@ type TError_list = string[]
 const AuthPage = () => {
 
 	
-	const {vars} = useContext(AppContext) as IProviderExportProps
+	const {vars} = useContext(AppContext) as IApp
 	
 	const navigate = useNavigate()
 	
@@ -99,7 +98,6 @@ const AuthPage = () => {
 				.catch((e) => {
 					//console.log(e.name)
 					//console.log(e.message)
-					console.log(e.error_msg)
 					if (e.error_msg && e.error_msg.errors && e.error_msg.type === 'express-validator') {
 						const password_errors_list: TError_list = e.error_msg.errors.reduce((collector: TError_list, item: IServer_errors_details) => {
 							if (item.param === 'password') {
@@ -108,8 +106,6 @@ const AuthPage = () => {
 							}
 							return collector
 						}, [])
-						console.log(password_errors_list)
-					
 						setPasswordErrors(password_errors_list)
 						
 						const email_errors_list: TError_list = e.error_msg.errors.reduce((collector: TError_list, item: IServer_errors_details) => {

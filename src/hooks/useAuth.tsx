@@ -1,7 +1,7 @@
 import {useState, useEffect} from 'react'
 import IAuth from '../@type/auth'
 
-interface TLocalStorage {
+interface ILocalStorage {
 	token: string,
 	userId: string
 }
@@ -32,7 +32,7 @@ export const useAuth = ():IAuth => {
 	}
 
 	useEffect(() => {
-		let data: TLocalStorage | null = null
+		let data: ILocalStorage | null = null
 		
 		const localStorage_str = localStorage.getItem('userData')
 		

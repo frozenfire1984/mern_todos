@@ -2,16 +2,8 @@ import React, {memo} from 'react'
 import {ImCheckmark, ImCheckmark2, ImCross} from 'react-icons/im'
 import {BsExclamationDiamond, BsExclamationDiamondFill} from 'react-icons/bs'
 import {FaLightbulb} from 'react-icons/fa'
-
+import ITodo from '../../../@type/todo'
 import './Todo.scss'
-
-interface ITodo {
-	_id: string,
-	text: string,
-	owner: string,
-	completed: boolean,
-	important: boolean
-}
 
 interface ITodoProps {
 	item: ITodo,
@@ -21,6 +13,7 @@ interface ITodoProps {
 }
 
 const Todo = ({item, put, remove, index}: ITodoProps) => {
+	console.log('From todo')
 	return (
 		<div className={`
 				todos__item todo

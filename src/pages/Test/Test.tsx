@@ -1,8 +1,8 @@
 import React, {useContext} from 'react'
-import {TestContext, Type_ProviderExportProps} from '../../context/TestContext'
+import {TestContext, ITest} from '../../context/TestContext'
 
 const Test = () => {
-	const {status, toggleStatus} = useContext(TestContext) as Type_ProviderExportProps
+	const {status, toggleStatus} = useContext(TestContext) as ITest
 	
 	const onClickHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
 		event.preventDefault()

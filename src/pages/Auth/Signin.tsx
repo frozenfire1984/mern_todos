@@ -1,15 +1,14 @@
 import React, {useState, useContext, useEffect, FormEvent} from 'react'
 import {Link} from 'react-router-dom'
 import {AuthContext, IAuth} from '../../context/AuthContext'
-import {AppContext, IProviderExportProps} from '../../context/AppContext'
+import {AppContext, IApp} from '../../context/AppContext'
 import IPayload from '../../@type/payload'
 import CustomError from './_customError'
 import {BiLogIn} from 'react-icons/bi'
-
 import './Auth.scss'
 
 const Signin = () => {
-	const {vars} = useContext(AppContext) as IProviderExportProps
+	const {vars} = useContext(AppContext) as IApp
 	const {login} = useContext(AuthContext) as IAuth
 	
 	const [isLoading, setIsLoading] = useState(false)

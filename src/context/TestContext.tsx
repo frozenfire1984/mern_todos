@@ -1,20 +1,20 @@
 import React, {createContext, FC, ReactNode, useState} from 'react'
 
-type Type_ComponentImportProps = {
+type TProps = {
 	children: ReactNode
 }
 
-type Type_ProviderExportPropsStatus = boolean
+type TStatus = boolean
 
-export type Type_ProviderExportProps = {
-	status: Type_ProviderExportPropsStatus;
+export interface ITest {
+	status: TStatus;
 	toggleStatus?: () => void
 }
 
-export const TestContext = createContext<Type_ProviderExportProps | null>(null)
+export const TestContext = createContext<ITest | null>(null)
 
-const TestProvider: FC<Type_ComponentImportProps> = ({children}) => {
-	const [status, setStatus] = useState<Type_ProviderExportPropsStatus>(false)
+const TestProvider: FC<TProps> = ({children}) => {
+	const [status, setStatus] = useState<TStatus>(false)
 	const toggleStatus = () => {
 		setStatus(!status)
 	}
