@@ -1,12 +1,12 @@
-/* eslint-disable */
-import {createContext, useCallback, useContext, useState} from 'react';
-import {AuthContext} from "./AuthContext";
-import {AppContext} from "./AppContext";
+import React, {createContext, useContext, useState} from 'react'
+import {AuthContext} from './AuthContext'
+import {AppContext} from './AppContext'
+import PropTypes from 'prop-types'
 
 export const TodoContext = createContext(null)
 
 export const TodoProvider = ({children}) => {
-	const {isLogin, userId, isReady} = useContext(AuthContext)
+	const {userId} = useContext(AuthContext)
 	const {vars} = useContext(AppContext)
 	
 	const [todos, setTodos] = useState([])
@@ -24,7 +24,7 @@ export const TodoProvider = ({children}) => {
 				
 				await fetch(`${vars.url}/api/todo?${params}`,
 					{
-						method: "GET",
+						method: 'GET',
 						headers: {
 							'Content-Type': 'application/json'
 						}
@@ -47,14 +47,12 @@ export const TodoProvider = ({children}) => {
 	}
 	
 	const addTodo = async (text) => {
-		console.log("Add Todo")
-
 		setLoaderAdding(true)
 		
 		try {
 			await fetch(`${vars.url}/api/todo/add`,
 				{
-					method: "POST",
+					method: 'POST',
 					body: JSON.stringify({
 						text: text,
 						userId: userId
@@ -66,13 +64,11 @@ export const TodoProvider = ({children}) => {
 				.then(res => res.json())
 				.then(data => {
 					setTodos([...todos, data])
-					//setText("")
 				})
 				.catch(e => {
 					console.log(e.response.data.errors)
 					setError(true)
 					throw new Error(e.response.data.msg)
-					
 				})
 				.finally(() => {
 					setLoaderAdding(false)
@@ -83,17 +79,6 @@ export const TodoProvider = ({children}) => {
 	}
 	
 	const removeTodo = async (id, index) => {
-		console.log("Remove Todo")
-		console.log(id)
-		
-		let current_todo =  todos[index]
-		current_todo.wait = true
-		setTodos([
-			...todos.slice(0, index),
-			current_todo,
-			...todos.slice(index + 1, todos.length)
-		])
-		
 		const params = new URLSearchParams({
 			id: id,
 			some: 'foo bar'
@@ -101,15 +86,14 @@ export const TodoProvider = ({children}) => {
 		
 		try {
 			await fetch(`${vars.url}/api/todo?${params}`,
-				{method: "DELETE"}
+				{method: 'DELETE'}
 			)
 				.then(res => res.json())
-				.then(data => {
+				.then(() => {
 					setTodos([
 						...todos.slice(0, index),
 						...todos.slice(index + 1, todos.length)
 					])
-					current_todo = null
 				})
 				.catch(e => {
 					throw new Error(e)
@@ -120,23 +104,14 @@ export const TodoProvider = ({children}) => {
 	}
 	
 	const putTodo = async (id, index, type) => {
-		console.log("Put Todo")
 		const params = new URLSearchParams({
 			type: type,
 		})
 		
-		let current_todo =  todos[index]
-		current_todo.wait = true
-		setTodos([
-			...todos.slice(0, index),
-			current_todo,
-			...todos.slice(index + 1, todos.length)
-		])
-		
 		try {
 			await fetch(`${vars.url}/api/todo?${params}`,
 				{
-					method: "PUT",
+					method: 'PUT',
 					body: JSON.stringify({
 						id: id
 					}),
@@ -152,7 +127,6 @@ export const TodoProvider = ({children}) => {
 						data,
 						...todos.slice(index + 1, todos.length)
 					])
-					current_todo = null
 				})
 				.catch(e => {
 					throw new Error(e)
@@ -162,9 +136,11 @@ export const TodoProvider = ({children}) => {
 		}
 	}
 	
-	
-	
 	return <TodoContext.Provider value={{todos, loader, loaderAdding, error, getTodos, addTodo, removeTodo, putTodo}}>
 		{children}
 	</TodoContext.Provider>
+}
+
+TodoProvider.propTypes = {
+	children: PropTypes.object.isRequired
 }
