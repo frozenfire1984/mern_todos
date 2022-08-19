@@ -1,16 +1,18 @@
 /* eslint-disable */
+import {memo} from "react"
 import {ImCheckmark, ImCheckmark2, ImCross} from "react-icons/im";
 import {BsExclamationDiamond, BsExclamationDiamondFill} from "react-icons/bs";
 import {FaLightbulb} from "react-icons/fa";
-
 import './Todo.scss'
 
 const Todo = ({index, todo, removeTodo, putTodo}) => {
+	console.log("from todo")
 	return (
 		<div className={`
 				todos__item todo
 				${todo.completed ? 'todo_completed' : ''}
 				${todo.important ? 'todo_important' : ''}
+				${todo.wait ? 'todo_waiting' : ''}
 			`}>
 			{todo.important && <FaLightbulb className="todo__icon-mark"/>}
 			<div className="todo__cell todo__cell_num">
@@ -18,7 +20,9 @@ const Todo = ({index, todo, removeTodo, putTodo}) => {
 					{index + 1}
 				</div>
 			</div>
-			<div className="todo__cell todo__cell_content">{todo.text}</div>
+			<div className="todo__cell todo__cell_content">
+				{todo.text}
+			</div>
 			<div className="todo__cell todo__cell_controls">
 				<button
 					onClick={() => putTodo(todo._id, index, "completed")}

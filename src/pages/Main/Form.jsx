@@ -3,7 +3,7 @@ import React, {useContext, useState} from "react";
 import {TodoContext} from "../../context/TodoContext";
 
 const Form = () => {
-	const {addTodo} = useContext(TodoContext)
+	const {addTodo, loaderAdding} = useContext(TodoContext)
 	const [text, setText] = useState("")
 	
 	const inputHandler = (e) => {
@@ -19,7 +19,7 @@ const Form = () => {
 	return (
 		<div className="container container_narrow">
 			<h3 className="heading">Add Task</h3>
-			<form className={`form`} onSubmit={submitHandler}>
+			<form className={`form ${loaderAdding ? 'form_disabled' : ''}`} onSubmit={submitHandler}>
 				<div className="form__row">
 					<input
 						type="text"
@@ -31,6 +31,11 @@ const Form = () => {
 				</div>
 				<div className="row">
 					<button type="submit" className="btn" disabled={!text}>Add</button>
+				</div>
+				<div className="row">
+					<div className="loader-holder">
+						{loaderAdding && <div>sending...</div>}
+					</div>
 				</div>
 			</form>
 		</div>

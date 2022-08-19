@@ -1,5 +1,5 @@
 /* eslint-disable */
-import {createContext, useContext, useState} from 'react';
+import {createContext, useCallback, useContext, useState} from 'react';
 import {AuthContext} from "./AuthContext";
 import {AppContext} from "./AppContext";
 
@@ -11,6 +11,7 @@ export const TodoProvider = ({children}) => {
 	
 	const [todos, setTodos] = useState([])
 	const [loader, setLoader] = useState(false)
+	const [loaderAdding, setLoaderAdding] = useState(false)
 	const [error, setError] = useState(false)
 	
 	const getTodos = async () => {
@@ -47,8 +48,8 @@ export const TodoProvider = ({children}) => {
 	
 	const addTodo = async (text) => {
 		console.log("Add Todo")
-		//e.preventDefault()
-		//if (!text) return null
+
+		setLoaderAdding(true)
 		
 		try {
 			await fetch(`${vars.url}/api/todo/add`,
@@ -74,7 +75,7 @@ export const TodoProvider = ({children}) => {
 					
 				})
 				.finally(() => {
-					setLoader(false)
+					setLoaderAdding(false)
 				})
 		} catch (e) {
 			console.log(e)
@@ -84,6 +85,14 @@ export const TodoProvider = ({children}) => {
 	const removeTodo = async (id, index) => {
 		console.log("Remove Todo")
 		console.log(id)
+		
+		let current_todo =  todos[index]
+		current_todo.wait = true
+		setTodos([
+			...todos.slice(0, index),
+			current_todo,
+			...todos.slice(index + 1, todos.length)
+		])
 		
 		const params = new URLSearchParams({
 			id: id,
@@ -100,6 +109,7 @@ export const TodoProvider = ({children}) => {
 						...todos.slice(0, index),
 						...todos.slice(index + 1, todos.length)
 					])
+					current_todo = null
 				})
 				.catch(e => {
 					throw new Error(e)
@@ -114,6 +124,14 @@ export const TodoProvider = ({children}) => {
 		const params = new URLSearchParams({
 			type: type,
 		})
+		
+		let current_todo =  todos[index]
+		current_todo.wait = true
+		setTodos([
+			...todos.slice(0, index),
+			current_todo,
+			...todos.slice(index + 1, todos.length)
+		])
 		
 		try {
 			await fetch(`${vars.url}/api/todo?${params}`,
@@ -134,6 +152,7 @@ export const TodoProvider = ({children}) => {
 						data,
 						...todos.slice(index + 1, todos.length)
 					])
+					current_todo = null
 				})
 				.catch(e => {
 					throw new Error(e)
@@ -145,7 +164,7 @@ export const TodoProvider = ({children}) => {
 	
 	
 	
-	return <TodoContext.Provider value={{todos, loader, error, getTodos, addTodo, removeTodo, putTodo}}>
+	return <TodoContext.Provider value={{todos, loader, loaderAdding, error, getTodos, addTodo, removeTodo, putTodo}}>
 		{children}
 	</TodoContext.Provider>
 }
