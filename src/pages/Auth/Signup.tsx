@@ -1,43 +1,19 @@
 import React, {useState, useContext, useEffect, FormEvent} from 'react'
 import {Link, useNavigate} from 'react-router-dom'
 //import {AuthContext} from '../../context/AuthContext'
-import {AppContext, Type_ProviderExportProps} from '../../context/AppContext'
+import {AppContext, IProviderExportProps} from '../../context/AppContext'
+import IPayload from '../../@type/payload'
+import {IServer_errors_details} from '../../@type/server.errors'
+import CustomError from './_customError'
 import {FaUserPlus} from 'react-icons/fa'
 import './Auth.scss'
 
-interface IServer_EV_errors_details {
-	value: string,
-	msg: string,
-	param: string,
-	location: string
-}
-
-interface IServer_EV_errors{
-	errors: IServer_EV_errors_details,
-	msg: string,
-	type: string
-}
-
-interface IPayload {
-	email: string,
-	password: string
-}
-
 type TError_list = string[]
 
-export class CustomError extends Error {
-	constructor(message: string) {
-		super(message)
-		//Object.setPrototypeOf(this, CustomError.prototype)
-	}
-	error_msg: IServer_EV_errors | null = null
-	response?: object
-}
-
 const AuthPage = () => {
-	const debug_mode = false
+
 	
-	const {vars} = useContext(AppContext) as Type_ProviderExportProps
+	const {vars} = useContext(AppContext) as IProviderExportProps
 	
 	const navigate = useNavigate()
 	
@@ -125,7 +101,7 @@ const AuthPage = () => {
 					//console.log(e.message)
 					console.log(e.error_msg)
 					if (e.error_msg && e.error_msg.errors && e.error_msg.type === 'express-validator') {
-						const password_errors_list: TError_list = e.error_msg.errors.reduce((collector: TError_list, item: IServer_EV_errors_details) => {
+						const password_errors_list: TError_list = e.error_msg.errors.reduce((collector: TError_list, item: IServer_errors_details) => {
 							if (item.param === 'password') {
 								collector.push(item.msg)
 								console.log(item.value)
@@ -136,7 +112,7 @@ const AuthPage = () => {
 					
 						setPasswordErrors(password_errors_list)
 						
-						const email_errors_list: TError_list = e.error_msg.errors.reduce((collector: TError_list, item: IServer_EV_errors_details) => {
+						const email_errors_list: TError_list = e.error_msg.errors.reduce((collector: TError_list, item: IServer_errors_details) => {
 							if (item.param === 'email') {
 								collector.push(item.msg)
 							}
@@ -169,7 +145,7 @@ const AuthPage = () => {
 					<div className="form__row">
 						<label htmlFor="email">Email</label>
 						<input
-							type={debug_mode ? 'text' : 'email'}
+							type={vars.debug_mode ? 'text' : 'email'}
 							name="email"
 							id="email"
 							onChange={changeEmailHandler}
@@ -184,13 +160,13 @@ const AuthPage = () => {
 					<div className="form__row">
 						<label htmlFor="password">Password</label>
 						<input
-							type={debug_mode ? 'text' : 'password'}
+							type={vars.debug_mode ? 'text' : 'password'}
 							name="password"
 							id="password"
 							onChange={changePasswordHandler}
 							tabIndex={2}
 						/>
-						{debug_mode && <code>debug: {password.length}</code>}
+						{vars.debug_mode && <code>debug: {password.length}</code>}
 						{passwordErrors && passwordErrors.map((item, index) => {
 							return (
 								<div key={index} className="msg msg_error">{item}</div>

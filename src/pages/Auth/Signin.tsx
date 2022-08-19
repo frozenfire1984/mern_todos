@@ -1,19 +1,16 @@
-import React, {useState, useContext, useEffect} from 'react'
-import {BrowserRouter, Switch, Route, Link} from 'react-router-dom'
-import {AuthContext} from '../../context/AuthContext'
-import {AppContext} from '../../context/AppContext'
+import React, {useState, useContext, useEffect, FormEvent} from 'react'
+import {Link} from 'react-router-dom'
+import {AuthContext, IAuth} from '../../context/AuthContext'
+import {AppContext, IProviderExportProps} from '../../context/AppContext'
+import IPayload from '../../@type/payload'
+import CustomError from './_customError'
 import {BiLogIn} from 'react-icons/bi'
 
 import './Auth.scss'
 
 const Signin = () => {
-	const debug_mode = true
-	
-	const { vars } = useContext(AppContext)
-	
-	/*const vars = {
-		url: 'http://localhost:5001'
-	}*/
+	const {vars} = useContext(AppContext) as IProviderExportProps
+	const {login} = useContext(AuthContext) as IAuth
 	
 	const [isLoading, setIsLoading] = useState(false)
 	
@@ -24,14 +21,14 @@ const Signin = () => {
 	const [passwordError, setPasswordError] = useState('')
 	const [genericError, setGenericError] = useState('')
 	
-	const changeEmailHandler = (event) => {
+	const changeEmailHandler = (event: FormEvent<HTMLInputElement>) => {
 		console.log('changeEmailHandler')
-		setEmail(event.target.value)
+		setEmail((event.target as HTMLInputElement).value)
 	}
 	
-	const changePasswordHandler = (event) => {
+	const changePasswordHandler = (event: FormEvent<HTMLInputElement>) => {
 		console.log('changePasswordHandler')
-		setPassword(event.target.value)
+		setPassword((event.target as HTMLInputElement).value)
 	}
 	
 	useEffect(() => {
@@ -45,23 +42,23 @@ const Signin = () => {
 		}
 	}, [])
 	
-	const {login, logout, token, userId, isReady, isLogin} = useContext(AuthContext)
-	
-	const submitHandler = async (e) => {
+	const submitHandler = async (event: FormEvent<HTMLFormElement>) => {
 		console.log('submitHandler')
-		e.preventDefault()
+		event.preventDefault()
 		setIsLoading(true)
 		setEmailError('')
 		setPasswordError('')
 		setGenericError('')
 		
+		const payload:IPayload = {
+			email: email,
+			password: password
+		}
+		
 		try {
 			await fetch(`${vars.url}/api/auth/signin`, {
 				method: 'POST',
-				body: JSON.stringify({
-					email: email,
-					password: password
-				}),
+				body: JSON.stringify(payload),
 				headers: {
 					'Content-Type': 'application/json'
 				}
@@ -75,7 +72,7 @@ const Signin = () => {
 						return res
 					} else {
 						return res.json().then(data => {
-							let error = new Error('Bad request')
+							const error = new CustomError('Bad request')
 							error.error_msg = data
 							throw error
 						})
@@ -83,7 +80,7 @@ const Signin = () => {
 				})
 				.then((res) => {
 					if (!res.headers.get('content-type')?.includes('application/json')) {
-						let error = new Error('Error json parsing')
+						const error = new CustomError('Error json parsing')
 						error.response = res
 						throw error
 					}
@@ -137,7 +134,7 @@ const Signin = () => {
 					<div className="form__row">
 						<label htmlFor="email">Email</label>
 						<input
-							type={debug_mode ? 'text' : 'email'}
+							type={vars.debug_mode ? 'text' : 'email'}
 							name="email"
 							id="email"
 							onChange={changeEmailHandler}

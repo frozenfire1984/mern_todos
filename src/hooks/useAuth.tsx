@@ -1,20 +1,12 @@
-import {useState, useEffect, useCallback} from 'react'
+import {useState, useEffect} from 'react'
+import IAuth from '../@type/auth'
 
-type IData = {
+interface TLocalStorage {
 	token: string,
 	userId: string
 }
 
-type IOutput = {
-	login: (jwtToken: string, id: string) => void,
-	logout: () => void,
-	token: string,
-	userId: string,
-	isReady: boolean,
-	isLogin: boolean
-}
-
-export const useAuth = (): IOutput => {
+export const useAuth = ():IAuth => {
 	const [token, setToken] = useState('')
 	const [userId, setUserId] = useState('')
 	const [isReady, setIsReady] = useState(false)
@@ -40,7 +32,7 @@ export const useAuth = (): IOutput => {
 	}
 
 	useEffect(() => {
-		let data: IData | null = null
+		let data: TLocalStorage | null = null
 		
 		const localStorage_str = localStorage.getItem('userData')
 		
@@ -56,3 +48,4 @@ export const useAuth = (): IOutput => {
 
 	return {login, logout, token, userId, isReady, isLogin}
 }
+

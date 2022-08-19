@@ -4,26 +4,22 @@ type Type_ComponentImportProps = {
 	children: ReactNode
 }
 
-type Type_ProviderExportPropVars = {
+interface IVars {
 	url: string,
+	debug_mode: boolean,
 	test_value?: string
 }
 
-export type Type_ProviderExportProps = {
-	vars: Type_ProviderExportPropVars
+export interface IProviderExportProps {
+	vars: IVars
 }
 
-export const AppContext = createContext<Type_ProviderExportProps | null>(null)
+export const AppContext = createContext<IProviderExportProps | null>(null)
 
 export const AppProvider: FC<Type_ComponentImportProps> = ({children}) => {
-	
-	/*const [vars, setVars] = useState<Type_ProviderExportPropVars>({
+	const vars: IVars = {
 		url: 'http://localhost:5001',
-		test_value: 'foo bar',
-	})*/
-	
-	const vars: Type_ProviderExportPropVars = {
-		url: 'http://localhost:5001',
+		debug_mode: true,
 		test_value: 'foo bar',
 	}
 	
