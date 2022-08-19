@@ -1,51 +1,81 @@
-import React, {memo} from 'react'
+import React, {useEffect, useState} from 'react'
 import PropTypes from 'prop-types'
 import {ImCheckmark, ImCheckmark2, ImCross} from 'react-icons/im'
 import {BsExclamationDiamond, BsExclamationDiamondFill} from 'react-icons/bs'
 import {FaLightbulb} from 'react-icons/fa'
-
 import './Todo.scss'
 
-const Todo = ({index, item, put, remove}) => {
-	console.log('from todo')
+const Todo = ({index, todo, removeTodo, putTodo}) => {
+	const [wait, setWait] = useState(false)
+	const [prevCompleted, setPrevCompleted] = useState(todo.completed)
+	const [prevImportant, setPrevImportant] = useState(todo.important)
+	
+	const clickHandler = () => {
+		setWait(true)
+		setPrevCompleted(todo.completed)
+		setPrevImportant(todo.important)
+	}
+	
+	useEffect(() => {
+		if (prevCompleted !== todo.completed) {
+			setWait(false)
+		}
+		
+		if (prevImportant !== todo.important) {
+			setWait(false)
+		}
+		
+		/*console.log('index:' + index)
+		console.log('completed_old:' + prevCompleted)
+		console.log('todo.completed:' + todo.completed)
+		console.log('-------------------------')*/
+		
+		return () => {
+			setWait(false)
+		}
+	},[todo])
+	
 	return (
-		<div id={`todo-id-${item._id}`} className={`
+		<div className={`
 				todos__item todo
-				${item.completed ? 'todo_completed' : ''}
-				${item.important ? 'todo_important' : ''}
+				${todo.completed ? 'todo_completed' : ''}
+				${todo.important ? 'todo_important' : ''}
+				${wait ? 'todo_waiting' : ''}
 			`}>
-			{item.important && <FaLightbulb className="todo__icon-mark"/>}
+			{todo.important && <FaLightbulb className="todo__icon-mark"/>}
 			<div className="todo__cell todo__cell_num">
 				<div className="todo__num-val">
 					{index + 1}
 				</div>
 			</div>
-			<div className="todo__cell todo__cell_content">{item.text}</div>
+			<div className="todo__cell todo__cell_content">
+				{todo.text}
+			</div>
 			<div className="todo__cell todo__cell_controls">
 				<button
-					onClick={() => put(item._id, index, 'completed')}
+					onClick={() => { putTodo(todo._id, index, 'completed'); clickHandler()}}
 					type="button"
 					className="btn btn_link todo__btn todo__btn_complete">
-					{item.completed
+					{todo.completed
 						? <ImCheckmark/>
 						: <ImCheckmark2/>
 					}
 				</button>
 				<button
-					onClick={() => put(item._id, index, 'important')}
+					onClick={() => {putTodo(todo._id, index, 'important'); clickHandler()}}
 					type="button"
 					className={`
 						btn btn_link
 						todo__btn todo__btn_mark
-						${item.completed ? 'btn_disabled' : ''}
+						${todo.completed ? 'btn_disabled' : ''}
 					`}>
-					{item.important
+					{todo.important
 						? <BsExclamationDiamondFill/>
 						: <BsExclamationDiamond/>
 					}
 				</button>
 				<button
-					onClick={() => remove(item._id, index)}
+					onClick={() => {removeTodo(todo._id, index); clickHandler()}}
 					type="button"
 					className="btn btn_link todo__btn todo__btn_delete">
 					<ImCross/>
@@ -57,10 +87,10 @@ const Todo = ({index, item, put, remove}) => {
 
 Todo.propTypes = {
 	index: PropTypes.number.isRequired,
-	item: PropTypes.object.isRequired,
+	todo: PropTypes.object.isRequired,
 	_id: PropTypes.string,
-	remove: PropTypes.func.isRequired,
-	put: PropTypes.func.isRequired
+	removeTodo: PropTypes.func.isRequired,
+	putTodo: PropTypes.func.isRequired
 }
 
-export default memo(Todo)
+export default Todo

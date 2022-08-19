@@ -66,7 +66,7 @@ router.put('/', async (req, res) => {
 		const todo = await Todo.findOne({_id: req.body.id})
 		todo[req.query.type] = !todo[req.query.type]
 		await todo.save()
-		await delay(1000)
+		await delay(2000)
 		res.status(200)
 		res.json(todo)
 	} catch (e) {
