@@ -30,6 +30,7 @@ router.post('/add',
 			})
 			
 			await todo.save()
+			await delay(1000)
 			res.status(201).json(todo)
 		} catch (e) {
 			console.log(e)
@@ -52,6 +53,7 @@ router.delete('/', async (req, res) => {
 		console.log(req.params)
 		console.log(req.query)
 		const todo = await Todo.findOneAndDelete({_id: req.query.id})
+		await delay(1000)
 		res.status(200)
 		res.json(todo)
 	} catch (e) {
@@ -64,6 +66,7 @@ router.put('/', async (req, res) => {
 		const todo = await Todo.findOne({_id: req.body.id})
 		todo[req.query.type] = !todo[req.query.type]
 		await todo.save()
+		await delay(1000)
 		res.status(200)
 		res.json(todo)
 	} catch (e) {
