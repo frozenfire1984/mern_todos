@@ -1,5 +1,5 @@
-import React, {useContext, useState} from 'react'
-import {BrowserRouter, Routes, Route, Outlet, Link, NavLink, useParams, Navigate} from 'react-router-dom'
+import React, {useContext} from 'react'
+import {BrowserRouter, Routes, Route, Navigate} from 'react-router-dom'
 import Navbar from './components/Navbar/Navbar'
 import Signin from './pages/Auth/Signin'
 import Signup from './pages/Auth/Signup'
