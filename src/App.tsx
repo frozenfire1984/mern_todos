@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, {useContext, useState} from 'react'
 import {BrowserRouter, Routes, Route, Outlet, Link, NavLink, useParams, Navigate} from 'react-router-dom'
 import {AuthContext, IAuth} from './context/AuthContext'

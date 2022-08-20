@@ -5,6 +5,18 @@
   display: flex;
   transition: $trans background-color linear;
 
+  &::before {
+    display: none;
+    content: "...waiting...";
+    position: absolute;
+    z-index: 5;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 5px;
+    background-color: #fff;
+  }
+
   & &__icon-mark {
     position: absolute;
     left: -.5rem;
@@ -91,6 +103,19 @@
           display: block;
         }
       }
+    }
+  }
+
+  &_waiting {
+    > * {
+      user-select: none;
+      filter: grayscale(100%);
+      pointer-events: none;
+      opacity: .3;
+    }
+
+    &::before {
+      display: block;
     }
   }
 

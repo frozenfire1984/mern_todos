@@ -3,16 +3,16 @@ import ReactDOM from 'react-dom'
 import App from './App'
 import {AuthProvider} from './context/AuthContext'
 import {AppProvider} from './context/AppContext'
-import TestProvider from './context/TestContext'
+import {TodoProvider} from './context/TodoContext'
 import './index.scss'
 
 ReactDOM.render(
 	<React.StrictMode>
 		<AppProvider>
 			<AuthProvider>
-				<TestProvider>
+				<TodoProvider>
 					<App/>
-				</TestProvider>
+				</TodoProvider>
 			</AuthProvider>
 		</AppProvider>
 	</React.StrictMode>,
