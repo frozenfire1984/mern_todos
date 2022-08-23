@@ -53,7 +53,7 @@ router.delete('/', async (req, res) => {
 		console.log(req.params)
 		console.log(req.query)
 		const todo = await Todo.findOneAndDelete({_id: req.query.id})
-		await delay(1000)
+		await delay(5000)
 		res.status(200)
 		res.json(todo)
 	} catch (e) {

@@ -1,20 +1,30 @@
 /* eslint-disable*/
-import React, {useEffect, useState} from 'react'
+import React, {useContext, useEffect, useState} from 'react'
 import PropTypes from 'prop-types'
 import {ImCheckmark, ImCheckmark2, ImCross} from 'react-icons/im'
 import {BsExclamationDiamond, BsExclamationDiamondFill} from 'react-icons/bs'
 import {FaLightbulb} from 'react-icons/fa'
 import './Todo.scss'
+import {useDispatch} from "react-redux"
+import {AuthContext} from "../../../context/AuthContext"
+import {AppContext} from "../../../context/AppContext"
+import {removeTodo} from "../../../middleWares/removeTodo"
 
-const Todo = ({index, todo, removeTodo, putTodo}) => {
+const Todo = ({index, todo}) => {
 	const [wait, setWait] = useState(false)
 	const [prevCompleted, setPrevCompleted] = useState(todo.completed)
 	const [prevImportant, setPrevImportant] = useState(todo.important)
+	
+	const {isLogin, userId, isReady} = useContext(AuthContext)
+	const {vars} = useContext(AppContext)
+	
+	const dispatch = useDispatch()
 	
 	const clickHandler = () => {
 		setWait(true)
 		setPrevCompleted(todo.completed)
 		setPrevImportant(todo.important)
+		dispatch(removeTodo(vars, todo._id, index))
 	}
 	
 	useEffect(() => {
@@ -26,10 +36,10 @@ const Todo = ({index, todo, removeTodo, putTodo}) => {
 			setWait(false)
 		}
 		
-		/*console.log('index:' + index)
+		console.log('index:' + index)
 		console.log('completed_old:' + prevCompleted)
 		console.log('todo.completed:' + todo.completed)
-		console.log('-------------------------')*/
+		console.log('-------------------------')
 		
 		return () => {
 			setWait(false)
@@ -43,6 +53,7 @@ const Todo = ({index, todo, removeTodo, putTodo}) => {
 				${todo.important ? 'todo_important' : ''}
 				${wait ? 'todo_waiting' : ''}
 			`}>
+			
 			{todo.important && <FaLightbulb className="todo__icon-mark"/>}
 			<div className="todo__cell todo__cell_num">
 				<div className="todo__num-val">
@@ -52,8 +63,8 @@ const Todo = ({index, todo, removeTodo, putTodo}) => {
 			<div className="todo__cell todo__cell_content">
 				{todo.text}
 			</div>
-			{/*<div className="todo__cell todo__cell_controls">
-				<button
+			<div className="todo__cell todo__cell_controls">
+				{/*<button
 					onClick={() => { putTodo(todo._id, index, 'completed'); clickHandler()}}
 					type="button"
 					className="btn btn_link todo__btn todo__btn_complete">
@@ -74,14 +85,14 @@ const Todo = ({index, todo, removeTodo, putTodo}) => {
 						? <BsExclamationDiamondFill/>
 						: <BsExclamationDiamond/>
 					}
-				</button>
+				</button>*/}
 				<button
-					onClick={() => {removeTodo(todo._id, index); clickHandler()}}
+					onClick={clickHandler}
 					type="button"
 					className="btn btn_link todo__btn todo__btn_delete">
 					<ImCross/>
 				</button>
-			</div>*/}
+			</div>
 		</div>
 	)
 }

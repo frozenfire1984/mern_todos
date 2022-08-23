@@ -2,7 +2,7 @@
 import {useDispatch} from "react-redux";
 import {useContext, useState} from "react"
 import {AuthContext} from "../context/AuthContext"
-import {addTodosAction, incrCounterAction, decrCounterAction, resetCounterAction} from "../store/"
+import {addTodoAction, incrCounterAction, decrCounterAction, resetCounterAction} from "../store/"
 
 const Counter = () => {
 	const {userId} = useContext(AuthContext)

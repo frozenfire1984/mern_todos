@@ -3,7 +3,13 @@ import {createStore, combineReducers, applyMiddleware} from "redux";
 import {counterReducer} from "./counter/counterReducer";
 import {todosReducer} from "./todos/todosReducer";
 import {composeWithDevTools} from "@redux-devtools/extension";
-import {addTodosAction, removeTodoAction} from "./todos/todosActions"
+import {
+	addTodoAction,
+	getTodosAction,
+	setLoaderTodosAction,
+	setLoaderAddingTodosAction,
+	setErrorTodosAction,
+	removeTodoAction} from "./todos/todosActions"
 import {incrCounterAction, decrCounterAction, resetCounterAction} from "./counter/counterActions"
 import thunk from "redux-thunk"
 
@@ -18,8 +24,14 @@ console.log(store.getState())
 
 export {
 	store,
-	addTodosAction,
+	addTodoAction,
+	getTodosAction,
+	setLoaderTodosAction,
+	setLoaderAddingTodosAction,
+	setErrorTodosAction,
 	removeTodoAction,
+	
+	
 	incrCounterAction,
 	decrCounterAction,
 	resetCounterAction

@@ -1,9 +1,9 @@
 /* eslint-disable */
 export const CLEAR_TODOS = 'CLEAR-TODOS'
 export const GET_TODOS = 'GET-TODOS'
-export const SWITCH_LOADER = 'SWITCH-LOADER-TODOS'
+export const SET_LOADER_TODOS = 'SET-LOADER-TODOS'
+export const SET_LOADER_ADDING_TODOS = 'SET-LOADER-ADDING-TODOS'
 export const SET_ERROR_TODOS = 'SET-ERROR-TODOS'
-
 export const ADD_TODO = 'ADD-TODO'
 export const REMOVE_TODO = 'REMOVE-TODO'
 
@@ -20,9 +20,16 @@ export const getTodosAction = (payload) => {
 	}
 }
 
-export const switchTodosLoaderAction = (payload) => {
+export const setLoaderTodosAction = (payload) => {
 	return {
-		type: SWITCH_LOADER,
+		type: SET_LOADER_TODOS,
+		payload: payload
+	}
+}
+
+export const setLoaderAddingTodosAction = (payload) => {
+	return {
+		type: SET_LOADER_ADDING_TODOS,
 		payload: payload
 	}
 }
@@ -34,7 +41,7 @@ export const setErrorTodosAction = (payload) => {
 	}
 }
 
-export const addTodosAction = (payload) => {
+export const addTodoAction = (payload) => {
 	return {
 		type: ADD_TODO,
 		payload: payload

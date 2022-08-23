@@ -1,5 +1,9 @@
 /* eslint-disable */
-import {getTodosAction, setErrorTodosAction, switchTodosLoaderAction} from "../store/todos/todosActions"
+import {
+	getTodosAction,
+	setErrorTodosAction,
+	setLoaderTodosAction,
+} from "../store/"
 
 export const getTodos = (userId, vars) => {
 	
@@ -8,7 +12,7 @@ export const getTodos = (userId, vars) => {
 	})
 	
 	return function(dispatch) {
-		dispatch(switchTodosLoaderAction(true))
+		dispatch(setLoaderTodosAction(true))
 		fetch(`${vars.url}/api/todo?${params}`,
 			{
 				method: 'GET',
@@ -25,7 +29,7 @@ export const getTodos = (userId, vars) => {
 				dispatch(setErrorTodosAction(true))
 			})
 			.finally(() => {
-				dispatch(switchTodosLoaderAction(false))
+				dispatch(setLoaderTodosAction(false))
 			})
 	}
 }

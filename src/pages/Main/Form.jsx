@@ -1,9 +1,16 @@
 /* eslint-disable */
 import React, {useContext, useState} from "react";
 import {TodoContext} from "../../context/TodoContext";
+import {useDispatch, useSelector} from "react-redux"
+import {addTodo} from "../../middleWares/addTodo"
+import {AuthContext} from "../../context/AuthContext"
+import {AppContext} from "../../context/AppContext"
 
 const Form = () => {
-	const {addTodo, loaderAdding} = useContext(TodoContext)
+	const {isLogin, userId, isReady} = useContext(AuthContext)
+	const {vars} = useContext(AppContext)
+	const dispatch = useDispatch()
+	const {loadingAdding} = useSelector(store => store.todos)
 	const [text, setText] = useState("")
 	
 	const inputHandler = (e) => {
@@ -13,13 +20,13 @@ const Form = () => {
 	const submitHandler = (e) => {
 		e.preventDefault()
 		setText("")
-		addTodo(text)
+		dispatch(addTodo(userId, text, vars))
 	}
 	
 	return (
 		<div className="container container_narrow">
 			<h3 className="heading">Add Task</h3>
-			<form className={`form ${loaderAdding ? 'form_disabled' : ''}`} onSubmit={submitHandler}>
+			<form className={`form ${loadingAdding ? 'form_disabled' : ''}`} onSubmit={submitHandler}>
 				<div className="form__row">
 					<input
 						type="text"
@@ -34,7 +41,7 @@ const Form = () => {
 				</div>
 				<div className="row">
 					<div className="loader-holder">
-						{loaderAdding && <div>sending...</div>}
+						{loadingAdding && <div>sending...</div>}
 					</div>
 				</div>
 			</form>

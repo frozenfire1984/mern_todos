@@ -24,7 +24,7 @@ ReactDOM.render(
 			<AuthProvider>
 				<TodoProvider>
 					<Provider store={store}>
-					<App/>
+						<App/>
 					</Provider>
 				</TodoProvider>
 			</AuthProvider>
