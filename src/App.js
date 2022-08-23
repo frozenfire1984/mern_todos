@@ -29,7 +29,7 @@ function App() {
 		<div className="app">
 			<BrowserRouter>
 				<Navbar/>
-				<Counter />
+				{/*<Counter />
 				counter:{counter}
 				<hr/>
 				Todos:
@@ -46,7 +46,7 @@ function App() {
 						</div>
 					:
 						<div>Todos empty!</div>
-				}
+				}*/}
 				
 				<Routes>
 					<Route path="/" element={isLogin ? <Main/> : <Navigate to="/signin"/>}/>

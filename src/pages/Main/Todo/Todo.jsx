@@ -1,3 +1,4 @@
+/* eslint-disable*/
 import React, {useEffect, useState} from 'react'
 import PropTypes from 'prop-types'
 import {ImCheckmark, ImCheckmark2, ImCross} from 'react-icons/im'
@@ -51,7 +52,7 @@ const Todo = ({index, todo, removeTodo, putTodo}) => {
 			<div className="todo__cell todo__cell_content">
 				{todo.text}
 			</div>
-			<div className="todo__cell todo__cell_controls">
+			{/*<div className="todo__cell todo__cell_controls">
 				<button
 					onClick={() => { putTodo(todo._id, index, 'completed'); clickHandler()}}
 					type="button"
@@ -80,7 +81,7 @@ const Todo = ({index, todo, removeTodo, putTodo}) => {
 					className="btn btn_link todo__btn todo__btn_delete">
 					<ImCross/>
 				</button>
-			</div>
+			</div>*/}
 		</div>
 	)
 }
@@ -89,8 +90,8 @@ Todo.propTypes = {
 	index: PropTypes.number.isRequired,
 	todo: PropTypes.object.isRequired,
 	_id: PropTypes.string,
-	removeTodo: PropTypes.func.isRequired,
-	putTodo: PropTypes.func.isRequired
+	//removeTodo: PropTypes.func.isRequired,
+	//putTodo: PropTypes.func.isRequired
 }
 
 export default Todo
