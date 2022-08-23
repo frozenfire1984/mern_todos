@@ -1,8 +1,11 @@
 /* eslint-disable */
 import {useDispatch} from "react-redux";
-import {useState} from "react";
+import {useContext, useState} from "react"
+import {AuthContext} from "../context/AuthContext"
+import {addTodosAction, incrCounterAction, decrCounterAction, resetCounterAction} from "../store/"
 
 const Counter = () => {
+	const {userId} = useContext(AuthContext)
 	const dispatch = useDispatch()
 	const [incrementVal, setIncrementVal] = useState(0)
 	const [decrementVal, setDecrementVal] = useState(0)
@@ -17,26 +20,28 @@ const Counter = () => {
 	
 	
 	const handlerIncrement = (num) => {
-		dispatch({
-			type: 'INCR',
-			payload: num
-		})
+		dispatch(incrCounterAction(num))
 		setIncrementVal(0)
 	}
 	
 	const handlerDecrement = (num) => {
-		dispatch({
-			type: 'DECR',
-			payload: num
-		})
+		dispatch(decrCounterAction(num))
 		setDecrementVal(0)
 	}
 	
 	const handlerReset = () => {
-	  dispatch({
-			type: 'RESET',
-			payload: null
-		})
+	  dispatch(resetCounterAction())
+	}
+	
+	const handlerAddTodo = () => {
+		
+		const todo = {_id: new Date().getTime(),
+			text: 'foo bar',
+			owner: userId,
+			completed: false,
+			important: false}
+		
+		dispatch(addTodosAction(todo))
 	}
 	
 	return (
@@ -70,6 +75,7 @@ const Counter = () => {
 			<button onClick={handlerReset}>Reset</button>
 			<hr/>
 			<br/>
+			<button onClick={() => handlerAddTodo()}>Add todo</button>
 		</div>
 	)
 }

@@ -1,29 +1,29 @@
-/*const initialStore = {
-	_id: new Date().getTime(),
-	text: 'foo bar',
-	owner: '',
-	completed: false,
-	important: false
-}*/
+/* eslint-disable */
+import {ADD_TODO, REMOVE_TODO} from "./todosActions"
 
 const initialStore = {
-	todos: []
+	todos: [
+		{
+			_id: new Date().getTime(),
+			text: 'foo bar',
+			owner: '',
+			completed: false,
+			important: false
+		}
+	]
 }
 
 
-//const action = {type: '', payload: ''}
 
-const todosReducer = (store = initialStore, action) => {
+export const todosReducer = (store = initialStore, action) => {
 	switch (action.type) {
-		case 'ADD-TODO':
-			return {...store, test: store.test + action.payload}
-		case 'REMOVE-TODO':
-			return {...store, test: store.test - action.payload}
+		case ADD_TODO:
+			return {...store, todos: [...store.todos, action.payload]}
+		case REMOVE_TODO:
+			return {...store, todos: store.todos.filter(item => item._id !== action.payload)}
 		default: {
 			return store
 		}
 	}
-	
 }
 
-export {todosReducer}
