@@ -1,16 +1,16 @@
-const initialStore = {
+const initialState = {
 	score: 10
 }
 
-const counterReducer = (state = initialStore, action) => {
+const counterReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case 'INCR':
-			return {...state, score: state.score + parseInt(action.payload)}
+			return {...state, score: state.score + Number(action.payload)}
 		case 'DECR':
-			if (state.score === 0) return state
-			return {...state, score: state.score - parseInt(action.payload)}
+			if (state.score - action.payload <= 0) return initialState
+			return {...state, score: state.score - Number(action.payload)}
 		case 'RESET':
-			return initialStore
+			return initialState
 		default:
 			return state
 	}

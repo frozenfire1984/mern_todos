@@ -1,24 +1,38 @@
 /* eslint-disable */
 import {useDispatch} from "react-redux";
+import {useState} from "react";
 
 const Counter = () => {
 	const dispatch = useDispatch()
+	const [incrementVal, setIncrementVal] = useState(0)
+	const [decrementVal, setDecrementVal] = useState(0)
 	
-	const handleIncrement = () => {
+	const handlerChangeIncrement = (e) => {
+		setIncrementVal(Number(e.target.value))
+	}
+	
+	const handlerChangeDecrement = (e) => {
+		setDecrementVal(Number(e.target.value))
+	}
+	
+	
+	const handlerIncrement = (num) => {
 		dispatch({
 			type: 'INCR',
-			payload: 1
+			payload: num
 		})
+		setIncrementVal(0)
 	}
 	
-	const handleDecrement = () => {
+	const handlerDecrement = (num) => {
 		dispatch({
 			type: 'DECR',
-			payload: 1
+			payload: num
 		})
+		setDecrementVal(0)
 	}
 	
-	const handleReset = () => {
+	const handlerReset = () => {
 	  dispatch({
 			type: 'RESET',
 			payload: null
@@ -27,9 +41,35 @@ const Counter = () => {
 	
 	return (
 		<div>
-			<button onClick={handleIncrement}>Increment</button>
-			<button onClick={handleDecrement}>Decrement</button>
-			<button onClick={handleReset}>Reset</button>
+			<input
+				type="range"
+				value={incrementVal}
+				onChange={(e) => handlerChangeIncrement(e)}
+				placeholder={'increment'}/>
+			{incrementVal}
+			<button
+				disabled={!incrementVal}
+				onClick={() => handlerIncrement(incrementVal)}>
+				Increment
+			</button>
+			
+			<hr/>
+			
+			<input
+				type="range"
+				value={decrementVal}
+				onChange={(e) => handlerChangeDecrement(e)}
+				placeholder={'decrement'}/>
+			{decrementVal}
+			<button
+				disabled={!decrementVal}
+				onClick={() => handlerDecrement(decrementVal)}>
+				Decrement
+			</button>
+			<hr/>
+			<button onClick={handlerReset}>Reset</button>
+			<hr/>
+			<br/>
 		</div>
 	)
 }

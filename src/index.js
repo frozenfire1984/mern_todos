@@ -6,25 +6,26 @@ import App from './App'
 import {AuthProvider} from './context/AuthContext'
 import {AppProvider} from './context/AppContext'
 import {TodoProvider} from './context/TodoContext'
-import {createStore} from 'redux'
-import {todoReducer} from './store/todos/todoReducer'
-import {counterReducer} from "./store/counter/counterReducer";
-import {Provider} from 'react-redux'
+//import {createStore} from 'redux'
+//import {todosReducer} from './store/todos/todosReducer'
+//import {counterReducer} from "./store/counter/counterReducer";
+//import {Provider} from 'react-redux'
+//import {store} from "./store";
 
 
 
 
-const store = createStore(todoReducer)
-const counterStore = createStore(counterReducer)
+//const store = createStore(todosReducer)
+//const counterStore = createStore(counterReducer)
 
 ReactDOM.render(
 	<React.StrictMode>
 		<AppProvider>
 			<AuthProvider>
 				<TodoProvider>
-					<Provider store={counterStore}>
-					<App/>
-					</Provider>
+					{/*<Provider store={store}>*/}
+					<div>dfgf</div>
+					{/*</Provider>*/}
 				</TodoProvider>
 			</AuthProvider>
 		</AppProvider>

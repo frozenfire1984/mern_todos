@@ -7,13 +7,13 @@
 }*/
 
 const initialStore = {
-	test: 100
+	todos: []
 }
 
 
 //const action = {type: '', payload: ''}
 
-const todoReducer = (store = initialStore, action) => {
+const todosReducer = (store = initialStore, action) => {
 	switch (action.type) {
 		case 'ADD-TODO':
 			return {...store, test: store.test + action.payload}
@@ -26,4 +26,4 @@ const todoReducer = (store = initialStore, action) => {
 	
 }
 
-export {todoReducer}
+export {todosReducer}
