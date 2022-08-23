@@ -9,22 +9,29 @@ import {useDispatch} from "react-redux"
 import {AuthContext} from "../../../context/AuthContext"
 import {AppContext} from "../../../context/AppContext"
 import {removeTodo} from "../../../middleWares/removeTodo"
+import {putTodo} from "../../../middleWares/putTodo"
 
 const Todo = ({index, todo}) => {
 	const [wait, setWait] = useState(false)
 	const [prevCompleted, setPrevCompleted] = useState(todo.completed)
 	const [prevImportant, setPrevImportant] = useState(todo.important)
-	
-	const {isLogin, userId, isReady} = useContext(AuthContext)
+
 	const {vars} = useContext(AppContext)
 	
 	const dispatch = useDispatch()
 	
-	const clickHandler = () => {
+	const putHandler = (type) => {
+		dispatch(putTodo(vars, todo._id, index, type))
+	}
+	
+	const removeHandler = () => {
+		dispatch(removeTodo(vars, todo._id, index))
+	}
+	
+	const waitHandler = () => {
 		setWait(true)
 		setPrevCompleted(todo.completed)
 		setPrevImportant(todo.important)
-		dispatch(removeTodo(vars, todo._id, index))
 	}
 	
 	useEffect(() => {
@@ -36,10 +43,10 @@ const Todo = ({index, todo}) => {
 			setWait(false)
 		}
 		
-		console.log('index:' + index)
+		/*console.log('index:' + index)
 		console.log('completed_old:' + prevCompleted)
 		console.log('todo.completed:' + todo.completed)
-		console.log('-------------------------')
+		console.log('-------------------------')*/
 		
 		return () => {
 			setWait(false)
@@ -64,8 +71,8 @@ const Todo = ({index, todo}) => {
 				{todo.text}
 			</div>
 			<div className="todo__cell todo__cell_controls">
-				{/*<button
-					onClick={() => { putTodo(todo._id, index, 'completed'); clickHandler()}}
+				<button
+					onClick={() => {putHandler('completed'); waitHandler()}}
 					type="button"
 					className="btn btn_link todo__btn todo__btn_complete">
 					{todo.completed
@@ -74,7 +81,7 @@ const Todo = ({index, todo}) => {
 					}
 				</button>
 				<button
-					onClick={() => {putTodo(todo._id, index, 'important'); clickHandler()}}
+					onClick={() => {putHandler('important'); waitHandler()}}
 					type="button"
 					className={`
 						btn btn_link
@@ -85,9 +92,9 @@ const Todo = ({index, todo}) => {
 						? <BsExclamationDiamondFill/>
 						: <BsExclamationDiamond/>
 					}
-				</button>*/}
+				</button>
 				<button
-					onClick={clickHandler}
+					onClick={() => {removeHandler(); waitHandler()}}
 					type="button"
 					className="btn btn_link todo__btn todo__btn_delete">
 					<ImCross/>

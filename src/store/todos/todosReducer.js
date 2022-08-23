@@ -5,7 +5,7 @@ import {
 	SET_ERROR_TODOS,
 	ADD_TODO,
 	REMOVE_TODO,
-	CLEAR_TODOS,
+	CLEAR_TODOS, PUT_TODO,
 } from "./todosActions"
 
 const initialstate = {
@@ -55,6 +55,16 @@ export const todosReducer = (state = initialstate, action) => {
 			return {
 				...state,
 				todos: state.todos.filter(item => item._id !== action.payload)
+			}
+		
+		case PUT_TODO:
+			return {
+				...state,
+				todos: [
+					...state.todos.slice(0, action.payload.index),
+					action.payload.data,
+					...state.todos.slice(action.payload.index + 1, state.todos.length)
+				]
 			}
 			
 		default: {

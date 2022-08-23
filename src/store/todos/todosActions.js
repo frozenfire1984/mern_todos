@@ -6,6 +6,7 @@ export const SET_LOADER_ADDING_TODOS = 'SET-LOADER-ADDING-TODOS'
 export const SET_ERROR_TODOS = 'SET-ERROR-TODOS'
 export const ADD_TODO = 'ADD-TODO'
 export const REMOVE_TODO = 'REMOVE-TODO'
+export const PUT_TODO = 'PUT-TODO'
 
 export const clearTodosAction = () => {
 	return {
@@ -51,6 +52,13 @@ export const addTodoAction = (payload) => {
 export const removeTodoAction = (payload) => {
 	return {
 		type: REMOVE_TODO,
+		payload: payload
+	}
+}
+
+export const putTodoAction = (payload) => {
+	return {
+		type: PUT_TODO,
 		payload: payload
 	}
 }
