@@ -29,9 +29,10 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "db": "brew services start mongodb/brew/mongodb-community",
+    "start_db": "brew services start mongodb/brew/mongodb-community",
+    "stop_db": "brew services stop mongodb-community",
     "server": "nodemon backend/server.js",
-    "dev_db": "concurrently \"npm run db\" \"npm run server\" \"npm run start\"",
+    "dev_db": "concurrently \"npm run start_db\" \"npm run server\" \"npm run start\"",
     "dev": "concurrently \"npm run server\" \"npm run start\""
   },
   "eslintConfig": {
