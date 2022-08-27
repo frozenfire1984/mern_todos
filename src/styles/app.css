@@ -1,0 +1,142 @@
+a.active-link {
+  color: red;
+}
+
+.heading {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  color: hsl(0deg, 0%, 30%);
+}
+.heading svg {
+  opacity: 0.5;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+.container.container_narrow {
+  max-width: 30rem;
+}
+.container + .container {
+  margin-top: 2rem;
+}
+
+.form {
+  position: relative;
+}
+.form::before {
+  display: none;
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: #fff;
+  opacity: 0.5;
+}
+.form.form_disabled {
+  user-select: none;
+  filter: grayscale(100%);
+  pointer-events: none;
+}
+.form.form_disabled::before {
+  display: block;
+}
+.form .form__row {
+  margin-block: 2rem;
+}
+.form .form__row_controls {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+.form .form__error {
+  font-size: 0.8em;
+  font-style: italic;
+  color: red;
+}
+.form .form__sus-msg {
+  text-align: center;
+}
+.form label {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+.form input {
+  height: 2.5rem;
+  width: 100%;
+  padding-inline: 0.5rem;
+  border: 1px hsl(0deg, 0%, 50%) solid;
+  border-radius: 0.2rem;
+}
+.form .form__field-note {
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  border: 1px #00acee solid;
+  border-radius: 0.5rem;
+  background-color: rgba(0, 172, 238, 0.1);
+  font-size: 0.9em;
+  font-style: italic;
+  color: #003d55;
+}
+.form .form__field-note p {
+  margin: 0;
+}
+.form .form__field-note ul {
+  margin-block: 0;
+}
+
+.btn {
+  display: flex;
+  align-items: center;
+  min-height: 2.5rem;
+  padding: 0.5rem 1.5rem;
+  border-radius: 0.2rem;
+  background-color: #00acee;
+  border: 1px #00acee solid;
+  color: #fff;
+  cursor: pointer;
+  font-size: 1rem;
+  text-decoration: none;
+}
+.btn:hover, .btn:active {
+  background-color: #009ad5;
+  border-color: #009ad5;
+}
+.btn:focus {
+  outline: none;
+  box-shadow: 0 0 1rem #00acee;
+}
+.btn.btn_wire {
+  background-color: transparent;
+  color: #00acee;
+}
+.btn.btn_wire:hover, .btn.btn_wire:active {
+  background-color: rgba(0, 172, 238, 0.1);
+}
+.btn.btn_link {
+  background-color: transparent;
+  border-color: transparent;
+}
+.btn.btn_link:hover, .btn.btn_link:active {
+  background-color: transparent;
+  border-color: transparent;
+}
+.btn.btn_link:focus {
+  box-shadow: none;
+}
+.btn[disabled], .btn.btn_disabled {
+  pointer-events: none;
+  user-select: none;
+  opacity: 0.7;
+  filter: grayscale(100%);
+}
+
+.loading {
+  text-align: center;
+  font-style: italic;
+  color: hsl(0deg, 0%, 30%);
+}
+
+/*# sourceMappingURL=app.css.map */

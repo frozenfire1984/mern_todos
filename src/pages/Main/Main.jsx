@@ -8,7 +8,8 @@ import Form from './Form'
 import './Main.scss'
 import {useDispatch, useSelector} from "react-redux"
 import {getTodos} from "../../middleWares/getTodos"
-import {clearTodosAction} from "../../store/todos/todosActions"
+import {clear} from "../../store_rtk-slice/todos/todosReducerRTK"
+import Counter from '../../components/Counter'
 
 const Main = () => {
 	const {isLogin, userId, isReady} = useContext(AuthContext)
@@ -16,13 +17,13 @@ const Main = () => {
 	
 	//const {todos, loader, error, getTodos, removeTodo, putTodo} = useContext(TodoContext)
 	
-	const {todos, loading, error} = useSelector(store => store.todos)
+	const {todos, loading, error} = useSelector(store => store.todos_rtk)
 	const dispatch = useDispatch()
 	
 	useEffect(() => {
-		dispatch(getTodos(userId, vars))
+		dispatch(getTodos(vars, userId))
 		return () => {
-			dispatch(clearTodosAction())
+			dispatch(clear())
 		}
 	}, [userId])
 	
@@ -39,12 +40,12 @@ const Main = () => {
 							key={index}
 							index={index}
 							todo={todo}
-							//putTodo={putTodo}
-							//removeTodo={removeTodo}
 						/>
 					))}
 					
 					{error && <div className="error">Error</div>}
+					<hr/>
+					<Counter/>
 				</div>
 			</div>
 		</>

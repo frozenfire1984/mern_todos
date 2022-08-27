@@ -10,7 +10,7 @@ const Form = () => {
 	const {isLogin, userId, isReady} = useContext(AuthContext)
 	const {vars} = useContext(AppContext)
 	const dispatch = useDispatch()
-	const {loadingAdding} = useSelector(store => store.todos)
+	const {loadingAdding} = useSelector(store => store.todos_rtk)
 	const [text, setText] = useState("")
 	
 	const inputHandler = (e) => {
@@ -20,7 +20,7 @@ const Form = () => {
 	const submitHandler = (e) => {
 		e.preventDefault()
 		setText("")
-		dispatch(addTodo(userId, text, vars))
+		dispatch(addTodo(vars, userId, text))
 	}
 	
 	return (

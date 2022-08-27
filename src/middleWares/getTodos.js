@@ -1,18 +1,18 @@
 /* eslint-disable */
 import {
-	getTodosAction,
-	setErrorTodosAction,
-	setLoaderTodosAction,
-} from "../store/"
+	get,
+	setError,
+	setLoading,
+} from '../store_rtk-slice/todos/todosReducerRTK'
 
-export const getTodos = (userId, vars) => {
+export const getTodos = (vars, userId) => {
 	
 	const params = new URLSearchParams({
 		id: userId
 	})
 	
 	return function(dispatch) {
-		dispatch(setLoaderTodosAction(true))
+		dispatch(setLoading(true))
 		fetch(`${vars.url}/api/todo?${params}`,
 			{
 				method: 'GET',
@@ -22,14 +22,14 @@ export const getTodos = (userId, vars) => {
 			})
 			.then(res => res.json())
 			.then(data => {
-				dispatch(getTodosAction(data))
+				dispatch(get(data))
 			})
 			.catch((e) => {
 				console.log(e)
-				dispatch(setErrorTodosAction(true))
+				dispatch(setError(true))
 			})
 			.finally(() => {
-				dispatch(setLoaderTodosAction(false))
+				dispatch(setLoading(false))
 			})
 	}
 }

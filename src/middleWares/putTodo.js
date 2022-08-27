@@ -1,9 +1,8 @@
 /* eslint-disable */
 import {
-	addTodoAction, removeTodoAction, setErrorTodosAction,
-	setLoaderAddingTodosAction
-} from "../store/"
-import {putTodoAction} from "../store/todos/todosActions"
+	put,
+	setError
+} from "../store_rtk-slice/todos/todosReducerRTK"
 
 export const putTodo = (vars, id, index, type) => {
 	
@@ -16,7 +15,6 @@ export const putTodo = (vars, id, index, type) => {
 	}
 	
 	return function(dispatch) {
-		//dispatch(setLoaderAddingTodosAction(true))
 		fetch(`${vars.url}/api/todo/?${params}`,
 			{
 				method: 'PUT',
@@ -27,11 +25,11 @@ export const putTodo = (vars, id, index, type) => {
 			})
 			.then(res => res.json())
 			.then(data => {
-				dispatch(putTodoAction({data: data, index: index}))
+				dispatch(put({data: data, index: index}))
 			})
 			.catch((e) => {
 				console.log(e)
-				dispatch(setErrorTodosAction(true))
+				dispatch(setError(true))
 			})
 			.finally(() => {
 				//dispatch(setLoaderAddingTodosAction(false))

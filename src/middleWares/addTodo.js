@@ -1,10 +1,11 @@
 /* eslint-disable */
 import {
-	addTodoAction, setErrorTodosAction,
-	setLoaderAddingTodosAction
-} from "../store/"
+	add,
+	setError,
+	setLoadingAdding
+} from "../store_rtk-slice/todos/todosReducerRTK"
 
-export const addTodo = (userId, text, vars) => {
+export const addTodo = (vars, userId, text) => {
 	
 	const body = {
 		text: text,
@@ -12,7 +13,7 @@ export const addTodo = (userId, text, vars) => {
 	}
 	
 	return function(dispatch) {
-		dispatch(setLoaderAddingTodosAction(true))
+		dispatch(setLoadingAdding(true))
 		fetch(`${vars.url}/api/todo/add`,
 			{
 				method: 'POST',
@@ -23,14 +24,14 @@ export const addTodo = (userId, text, vars) => {
 			})
 			.then(res => res.json())
 			.then(data => {
-				dispatch(addTodoAction(data))
+				dispatch(add(data))
 			})
 			.catch((e) => {
 				console.log(e)
-				dispatch(setErrorTodosAction(true))
+				dispatch(setError(true))
 			})
 			.finally(() => {
-				dispatch(setLoaderAddingTodosAction(false))
+				dispatch(setLoadingAdding(false))
 			})
 	}
 }

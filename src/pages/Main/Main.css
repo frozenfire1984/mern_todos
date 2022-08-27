@@ -1,0 +1,17 @@
+.todos {
+  padding-left: 1rem;
+}
+.todos .todos__item:first-child ~ .todos__item {
+  border-top: 1px hsl(0deg, 0%, 90%) solid;
+}
+
+.loader-holder {
+  min-height: 30px;
+  text-align: center;
+}
+
+.container.container.container_todos {
+  margin-top: 0;
+}
+
+/*# sourceMappingURL=Main.css.map */

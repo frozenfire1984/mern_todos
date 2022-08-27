@@ -10,7 +10,7 @@ import {createStore} from 'redux'
 import {todosReducer} from './store/todos/todosReducer'
 import {counterReducer} from "./store/counter/counterReducer";
 import {Provider} from 'react-redux'
-import {store} from "./store";
+import {store} from "./store_rtk-slice";
 
 
 

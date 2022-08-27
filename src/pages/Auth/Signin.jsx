@@ -124,6 +124,10 @@ const Signin = () => {
 		}
 	}
 	
+	const copyHandler = (e) => {
+		navigator.clipboard.writeText(e.currentTarget.textContent).then(() => console.log("password copyed"))
+	}
+	
 	return (
 		<div className="container container_narrow">
 			<div className="auth-page">
@@ -154,6 +158,9 @@ const Signin = () => {
 							tabIndex={2}
 						/>
 						{passwordError && <div className="msg msg_error">{passwordError}</div>}
+						<div className="form__field-note" onClick={copyHandler}>
+							<p>lorem12BAR$#</p>
+						</div>
 					</div>
 					<div className="form__row form__row_controls">
 						<button

@@ -20,19 +20,4 @@ const rootReducer = combineReducers({
 
 const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)))
 
-console.log(store.getState())
-
-export {
-	store,
-	addTodoAction,
-	getTodosAction,
-	setLoaderTodosAction,
-	setLoaderAddingTodosAction,
-	setErrorTodosAction,
-	removeTodoAction,
-	
-	
-	incrCounterAction,
-	decrCounterAction,
-	resetCounterAction
-}
+export {store}

@@ -1,8 +1,8 @@
 /* eslint-disable */
 import {
-	addTodoAction, removeTodoAction, setErrorTodosAction,
-	setLoaderAddingTodosAction
-} from "../store/"
+	remove,
+	setError
+} from "../store_rtk-slice/todos/todosReducerRTK"
 
 export const removeTodo = (vars, id) => {
 	
@@ -12,7 +12,6 @@ export const removeTodo = (vars, id) => {
 	})
 	
 	return function(dispatch) {
-		//dispatch(setLoaderAddingTodosAction(true))
 		fetch(`${vars.url}/api/todo/?${params}`,
 			{
 				method: 'DELETE',
@@ -22,11 +21,11 @@ export const removeTodo = (vars, id) => {
 			})
 			.then(res => res.json())
 			.then(() => {
-				dispatch(removeTodoAction(id))
+				dispatch(remove(id))
 			})
 			.catch((e) => {
 				console.log(e)
-				dispatch(setErrorTodosAction(true))
+				dispatch(setError(true))
 			})
 			.finally(() => {
 				//dispatch(setLoaderAddingTodosAction(false))

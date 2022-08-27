@@ -1,11 +1,19 @@
 /* eslint-disable */
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from 'react-redux'
 import {useContext, useState} from "react"
 import {AuthContext} from "../context/AuthContext"
-import {addTodoAction, incrCounterAction, decrCounterAction, resetCounterAction} from "../store/"
+//import {incrCounterAction, decrCounterAction, resetCounterAction} from "../store/counter/counterActions"
+import {
+	increment,
+	incrementCustom,
+	decrement,
+	decrementCustom,
+	reset} from '../store_rtk-slice/counter/counterReducerRTK'
 
 const Counter = () => {
-	const {userId} = useContext(AuthContext)
+
+	const score = useSelector(store => store.counter_rtk.score)
+
 	const dispatch = useDispatch()
 	const [incrementVal, setIncrementVal] = useState(0)
 	const [decrementVal, setDecrementVal] = useState(0)
@@ -20,33 +28,26 @@ const Counter = () => {
 	
 	
 	const handlerIncrement = (num) => {
-		dispatch(incrCounterAction(num))
+		dispatch(incrementCustom(num))
 		setIncrementVal(0)
 	}
 	
 	const handlerDecrement = (num) => {
-		dispatch(decrCounterAction(num))
+		dispatch(decrementCustom(num))
 		setDecrementVal(0)
 	}
 	
 	const handlerReset = () => {
-	  dispatch(resetCounterAction())
+	  dispatch(reset())
 	}
+
+
 	
-	const handlerAddTodo = () => {
-		
-		const todo = {_id: new Date().getTime(),
-			text: 'foo bar',
-			owner: userId,
-			completed: false,
-			important: false}
-		
-		dispatch(addTodosAction(todo))
-	}
+
 	
 	return (
 		<div>
-			<input
+			{/*<input
 				type="range"
 				value={incrementVal}
 				onChange={(e) => handlerChangeIncrement(e)}
@@ -74,8 +75,39 @@ const Counter = () => {
 			<hr/>
 			<button onClick={handlerReset}>Reset</button>
 			<hr/>
+			<p>Score: {score}</p>*/}
+			<button onClick={() => dispatch(increment())}>+</button>
+			<button onClick={() => dispatch(decrement())}>-</button>
+
+			<p>increment with custom values:</p>
+			<input
+				type="range"
+				value={incrementVal}
+				onChange={(e) => handlerChangeIncrement(e)}
+				placeholder={'increment'}/>
+			{incrementVal}
+			<button
+				disabled={!incrementVal}
+				onClick={() => handlerIncrement(incrementVal)}>
+				Increment +
+			</button>
 			<br/>
-			<button onClick={() => handlerAddTodo()}>Add todo</button>
+			<input
+				type="range"
+				value={decrementVal}
+				onChange={(e) => handlerChangeDecrement(e)}
+				placeholder={'decrement'}/>
+			{decrementVal}
+			<button
+				disabled={!decrementVal}
+				onClick={() => handlerDecrement(decrementVal)}>
+				Decrement -
+			</button>
+			<br/>
+			<button onClick={handlerReset}>Reset</button>
+			<hr/>
+			{score}
+
 		</div>
 	)
 }

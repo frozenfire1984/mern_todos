@@ -7,8 +7,8 @@ import Signup from './pages/Auth/Signup'
 import Main from './pages/Main/Main'
 import {AuthContext} from './context/AuthContext'
 import {useDispatch, useSelector} from "react-redux"
-import Counter from "./components/Counter";
-import {removeTodoAction} from "./store/"
+//import Counter from "./components/Counter";
+//import {removeTodoAction} from "./store/"
 
 import './styles/app.scss'
 
@@ -16,14 +16,14 @@ import './styles/app.scss'
 function App() {
 	const {isLogin} = useContext(AuthContext)
 	
-	const counter = useSelector(state => state.counter.score)
-	const todos = useSelector(state => state.todos.todos)
+	//const counter = useSelector(state => state.counter.score)
+	//const todos = useSelector(state => state.todos.todos)
 	
-	const dispatch = useDispatch()
+	//const dispatch = useDispatch()
 	
-	const clickHandler = (item) => {
+/*	const clickHandler = (item) => {
 		dispatch(removeTodoAction(item._id))
-	}
+	}*/
 	
 	return (
 		<div className="app">
