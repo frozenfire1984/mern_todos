@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { createSlice} from '@reduxjs/toolkit'
+import {createAsyncThunk, createSlice} from '@reduxjs/toolkit'
 
 const initialState = {
 	todos: [],
@@ -8,6 +8,23 @@ const initialState = {
 	error: false,
 }
 
+export const fetchTodos = createAsyncThunk(
+	'todos/get',
+	async function({url, userId}) {
+
+		const params = new URLSearchParams({
+			id: userId
+		})
+
+		const resp = await fetch(`${url}/api/todo?${params}`,{
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json'
+			}})
+		return await resp.json()
+	}
+)
+
 const todosSlice = createSlice({
 	name: "todos",
 	initialState,
@@ -15,13 +32,13 @@ const todosSlice = createSlice({
 		clear(state) {
 			state = initialState
 		},
-		get(state, action) {
+		/*get(state, action) {
 			state.todos = [...action.payload]
 			state.error = false
 		},
 		setLoading(state, action) {
 			state.loading = action.payload
-		},
+		},*/
 		setLoadingAdding(state, action) {
 			state.loadingAdding = action.payload
 		},
@@ -37,14 +54,28 @@ const todosSlice = createSlice({
 		put(state, action) {
 			state.todos[action.payload.index] = action.payload.data
 		}
+	},
+	extraReducers: {
+		[fetchTodos.pending]: (state) => {
+			state.loading = true
+			state.error = false
+		},
+		[fetchTodos.fulfilled]: (state, action) => {
+			state.loading = false
+			state.todos = [...action.payload]
+		},
+		[fetchTodos.rejected]: (state, action) => {
+			state.loading = false
+			state.error = true
+		}
 	}
 })
 
 export default todosSlice.reducer
 export const {
 	clear,
-	get,
-	setLoading,
+	//get,
+	//setLoading,
 	setLoadingAdding,
 	setError,
 	add,

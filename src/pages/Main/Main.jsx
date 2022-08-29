@@ -7,8 +7,8 @@ import Todo from './Todo/Todo'
 import Form from './Form'
 import './Main.scss'
 import {useDispatch, useSelector} from "react-redux"
-import {getTodos} from "../../middleWares/getTodos"
-import {clear} from "../../store_rtk-slice/todos/todosReducerRTK"
+//  import {getTodos} from "../../middleWares/getTodos"
+import {clear, fetchTodos} from "../../store_rtk-slice/todos/todosReducerRTK"
 import Counter from '../../components/Counter'
 
 const Main = () => {
@@ -21,11 +21,11 @@ const Main = () => {
 	const dispatch = useDispatch()
 	
 	useEffect(() => {
-		dispatch(getTodos(vars, userId))
+		dispatch(fetchTodos({url: vars.url, userId: userId}))
 		return () => {
 			dispatch(clear())
 		}
-	}, [userId])
+	}, [dispatch])
 	
 	return (
 		<>
